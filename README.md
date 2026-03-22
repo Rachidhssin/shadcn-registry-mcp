@@ -1,81 +1,76 @@
 <div align="center">
+  <img src="assets/logo.svg" alt="shadcn-registry-mcp" width="100%" />
+</div>
 
-# shadcn-registry-mcp
+<br/>
 
-**The missing bridge between your AI assistant and your UI component library.**
+<div align="center">
 
-[![npm version](https://img.shields.io/npm/v/shadcn-registry-mcp?color=black&style=flat-square)](https://www.npmjs.com/package/shadcn-registry-mcp)
-[![license](https://img.shields.io/github/license/Rachidhssin/shadcn-registry-mcp?color=black&style=flat-square)](LICENSE)
-[![tests](https://img.shields.io/badge/tests-12%20passing-brightgreen?style=flat-square)](tests/)
-[![typescript](https://img.shields.io/badge/TypeScript-strict-blue?style=flat-square)](tsconfig.json)
-[![MCP](https://img.shields.io/badge/MCP-stdio-purple?style=flat-square)](https://modelcontextprotocol.io)
-
-Stop copy-pasting install commands. Tell your AI to add a component — and it just appears.
+[![npm](https://img.shields.io/badge/npm-shadcn--registry--mcp-CB3837?style=flat-square&logo=npm&logoColor=white)](https://www.npmjs.com/package/shadcn-registry-mcp)
+[![license](https://img.shields.io/github/license/Rachidhssin/shadcn-registry-mcp?style=flat-square&color=brightgreen)](LICENSE)
+[![tests](https://img.shields.io/badge/tests-12%20passing-22c55e?style=flat-square&logo=vitest&logoColor=white)](tests/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript&logoColor=white)](tsconfig.json)
+[![MCP](https://img.shields.io/badge/MCP-stdio-8B5CF6?style=flat-square)](https://modelcontextprotocol.io)
+[![Node](https://img.shields.io/badge/Node.js-18%2B-339933?style=flat-square&logo=node.js&logoColor=white)](package.json)
 
 </div>
 
 ---
 
-## The problem
+## The Problem
 
-You're building with an AI assistant. You ask for a `<Dialog>` component. The AI writes the code, then tells you to run:
+You're in a conversation with your AI. You ask for a `<Sidebar>` component. The AI explains what to install, then says:
 
-```bash
-npx shadcn@latest add dialog
+```
+Run: npx shadcn@latest add sidebar
 ```
 
-You switch to a terminal, run the command, switch back. Every. Single. Time.
+You open a terminal. Run the command. Wait. Switch back. Every. Single. Time.
 
-**shadcn-registry-mcp** eliminates that context switch entirely. Your AI assistant gains the ability to install, inspect, and manage shadcn/ui components directly — without ever leaving the conversation.
+**shadcn-registry-mcp** eliminates that context switch. Your AI gains direct access to the shadcn registry — it installs, inspects, and manages components for you, right inside the conversation.
 
 ---
 
-## What it does
+## How It Works
 
 ```
-You:  "Add a sidebar with navigation to my project"
+You  ──▶  "Add a sidebar with navigation to my project"
 
-AI:   ✓ Fetched sidebar from registry (7 dependencies)
-      ✓ Installed: sidebar, button, separator, sheet, tooltip, input, skeleton
-      ✓ Wrote 8 files to src/components/ui/
-      ✓ Added 12 CSS variables to globals.css
-      ✓ Installed 4 npm packages via pnpm
+         ┌────────────────────────────────────────────────────┐
+         │              shadcn-registry-mcp                   │
+         │                                                    │
+         │  1. Detects your project (Next.js App Router, pnpm)│
+         │  2. Fetches sidebar from ui.shadcn.com/r/          │
+         │  3. Resolves 7 registry dependencies               │
+         │  4. Writes 8 files to src/components/ui/           │
+         │  5. Merges 12 CSS variables → globals.css          │
+         │  6. Runs pnpm add @radix-ui/react-slot ...         │
+         └────────────────────────────────────────────────────┘
 
-      Done. Import from @/components/ui/sidebar.
+AI  ──▶  ✓ Done. Import from @/components/ui/sidebar.
 ```
 
-No terminal. No copy-paste. No broken dependencies.
-
----
-
-## Features
-
-| | |
-|---|---|
-| **Smart dependency resolution** | Recursively resolves the full tree — installs deps before the component that needs them |
-| **Dry-run mode** | Preview exactly what will be written before committing a single change |
-| **Duplicate detection** | Skips already-installed components and tells you clearly which were new vs. existing |
-| **Framework detection** | Auto-detects Next.js App Router, Pages Router, Vite, or plain React |
-| **Package manager aware** | Detects and uses npm, pnpm, yarn, or bun automatically from your lockfile |
-| **CSS variable merging** | Injects component CSS vars into your `globals.css` — idempotently, no duplicates |
-| **Rich install reports** | Every file written, every package installed, exact paths — nothing hidden |
+No terminal. No broken dependencies. No manual path configuration.
 
 ---
 
 ## Quick Start
 
-**1. Make sure your project is initialized with shadcn:**
+**Step 1 — Initialize shadcn in your project** *(skip if already done)*
 
 ```bash
 npx shadcn@latest init
 ```
 
-**2. Add the MCP server to your AI client:**
+**Step 2 — Add the MCP server to your AI client**
 
 <details>
-<summary><strong>Claude Desktop</strong></summary>
+<summary>🖥️ &nbsp;<strong>Claude Desktop</strong></summary>
+<br/>
 
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+Edit your config file:
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
@@ -91,7 +86,8 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) o
 </details>
 
 <details>
-<summary><strong>Claude Code</strong></summary>
+<summary>💻 &nbsp;<strong>Claude Code</strong></summary>
+<br/>
 
 ```bash
 claude mcp add shadcn -- npx -y shadcn-registry-mcp
@@ -113,7 +109,8 @@ Or manually in `.claude/mcp_settings.json`:
 </details>
 
 <details>
-<summary><strong>Cursor / other MCP clients</strong></summary>
+<summary>🖱️ &nbsp;<strong>Cursor / Windsurf / other MCP clients</strong></summary>
+<br/>
 
 ```json
 {
@@ -128,105 +125,133 @@ Or manually in `.claude/mcp_settings.json`:
 
 </details>
 
-**3. Restart your AI client and start asking for components.**
+**Step 3 — Restart your client and ask for a component.**
 
 ---
 
 ## Tools
 
-The server exposes 6 tools your AI assistant can call:
+Six tools are exposed to your AI assistant:
 
-### `add_component`
-> Install one or more components with full dependency resolution.
+| Tool | Description | Writes files |
+|---|---|:---:|
+| `detect_project` | Inspect framework, package manager, component dirs, and shadcn config | — |
+| `list_components` | Browse all available components; filter by category | — |
+| `search_components` | Find components by name or keyword, ranked by relevance | — |
+| `get_component_info` | Deep-dive: files, deps, CSS vars, install status in your project | — |
+| `add_component` | Install components with full dependency resolution; supports `dryRun` | ✓ |
+| `list_installed` | See which shadcn components are already in your project | — |
 
-```
-names    string[]   Components to install, e.g. ["dialog", "button"]
-dryRun   boolean    Preview changes without writing anything (default: false)
-```
+### `add_component` in detail
 
-### `get_component_info`
-> Deep-dive on a component before installing — files, deps, CSS vars, and whether it's already in your project.
-
-```
-name     string     Component name, e.g. "sidebar", "data-table"
-```
-
-### `list_components`
-> Browse everything available in the official registry.
-
-```
-category string?    Optional filter, e.g. "form", "layout"
+```ts
+add_component({
+  names: ["sidebar"],   // one or more component names
+  dryRun: true          // preview without writing (default: false)
+})
 ```
 
-### `search_components`
-> Find components by name or keyword, ranked by relevance.
+**Example dry-run output:**
 
 ```
-query    string     Search term
-```
+DRY RUN — no files written
 
-### `list_installed`
-> See which shadcn components are already in your project.
+Would install (7):
+  + sidebar
+  + button
+  + separator
+  + sheet
+  + tooltip
+  + input
+  + skeleton
 
-```
-(no arguments)
-```
+Files that would be written (8):
+  /project/src/components/ui/sidebar.tsx
+  /project/src/components/ui/button.tsx
+  ...
 
-### `detect_project`
-> Inspect how the server sees your project — framework, paths, package manager, config.
-
-```
-(no arguments)
+npm packages that would be installed:
+  @radix-ui/react-slot
+  class-variance-authority
+  lucide-react
 ```
 
 ---
 
-## Example flows
+## Compatibility
 
-**Installing a complex component:**
-```
-You:  "I need a data table with sorting"
+### AI Clients
 
-AI calls: get_component_info("table")
-          → 2 registry deps, 1 npm package, not yet installed
+| Client | Setup | Status |
+|---|---|:---:|
+| Claude Desktop | JSON config | ✅ |
+| Claude Code | CLI or JSON | ✅ |
+| Cursor | JSON config | ✅ |
+| Windsurf | JSON config | ✅ |
+| Any MCP-compatible client | JSON config | ✅ |
 
-AI calls: add_component({ names: ["table"], dryRun: true })
-          → Shows exactly what will be written
+### Frameworks
 
-AI calls: add_component({ names: ["table"] })
-          → Installed. Here's your import.
-```
+| Framework | How detected | Status |
+|---|---|:---:|
+| Next.js App Router | `src/app/` directory | ✅ |
+| Next.js Pages Router | `pages/` directory | ✅ |
+| Vite | `vite` in dependencies | ✅ |
+| Plain React / other | Fallback | ✅ |
 
-**Auditing your project:**
-```
-You:  "What shadcn components do we already have?"
+### Package Managers
 
-AI calls: list_installed
-          → ✓ button   src/components/ui/button.tsx
-            ✓ dialog   src/components/ui/dialog.tsx
-            ✓ input    src/components/ui/input.tsx
-            ... 12 components total
-```
+| | npm | pnpm | yarn | bun |
+|---|:---:|:---:|:---:|:---:|
+| Auto-detected from lockfile | ✅ | ✅ | ✅ | ✅ |
 
 ---
 
 ## Security
 
-The 2026 AI ecosystem has a supply chain problem. Malicious MCP packages disguise themselves as developer tools to steal credentials, SSH keys, and browser sessions.
+> The 2026 AI ecosystem has a supply chain problem. Malicious MCP servers disguise themselves as developer tools to steal SSH keys, credentials, and browser sessions.
 
-This server is built with that threat model in mind:
+This server is built with that threat model in mind. Here is what it enforces:
 
-**Network egress is locked.** Every outbound request is validated before execution. The only permitted host is `https://ui.shadcn.com`. Any attempt to contact another domain — whether from registry data or tool input — raises a `SecurityError` and aborts immediately.
+#### 🔒 Network egress locked to one host
 
-**No path traversal.** Every file path from the registry is resolved against your project root via `path.resolve()` and explicitly rejected if it escapes the boundary. `../` sequences are blocked at both the string and resolved-path level.
+Every outbound HTTP request is validated before execution. The only permitted host is `https://ui.shadcn.com`. Any attempt to fetch from another domain — whether from registry data or tool input — raises a `SecurityError` immediately.
 
-**No shell injection.** Package manager commands use `execFile()` with arguments as arrays — never string concatenation into `exec()`. Registry-supplied package names cannot inject shell commands.
+```
+Attempted fetch to: https://evil.com/steal-keys
+Result: SecurityError — unauthorized host
+```
 
-**No sensitive file access.** The server reads only `components.json`, `package.json`, and the directories those files reference. It never touches `.env`, SSH keys, credential files, or your home directory.
+#### 🛡️ Path traversal prevention
 
-**Zero stdout logging.** The stdio transport uses stdout as the JSON-RPC channel. All server logging goes to `stderr` exclusively. A single stray `console.log()` would corrupt the protocol — this server has none.
+Every file path received from the registry is:
+1. Checked for literal `..` segments before resolution
+2. Resolved against the project root via `path.resolve()`
+3. Rejected if it falls outside the project boundary
 
-**Minimal dependencies.** The entire server runs on `@modelcontextprotocol/sdk` and `zod`. No extra packages means a smaller attack surface and a faster `npx` cold-start.
+#### 💉 No shell injection
+
+Package manager commands use `execFile()` with arguments as a typed array — never string concatenation into `exec()`. Registry-supplied package names cannot inject shell commands.
+
+```ts
+// ✅ What we do
+execFile('pnpm', ['add', '@radix-ui/react-slot'])
+
+// ❌ What we never do
+exec(`pnpm add ${packageName}`)
+```
+
+#### 🔇 No stdout pollution
+
+The stdio transport uses stdout as the JSON-RPC channel. All logging is `console.error()` only. A single `console.log()` would corrupt the protocol — this server has none.
+
+#### 📂 Minimal filesystem scope
+
+The server reads only `components.json`, `package.json`, and the directories those files reference. It never touches `.env`, SSH keys, credential files, or your home directory.
+
+#### ✅ Input validation
+
+Every tool input is validated by a Zod schema before any code runs. Invalid inputs are rejected with descriptive error messages, never passed downstream.
 
 ---
 
@@ -234,11 +259,11 @@ This server is built with that threat model in mind:
 
 ```
 src/
-├── index.ts              Entry point — stdio transport, startup
-├── server.ts             MCP server, all 6 tools registered with Zod schemas
-├── types.ts              Shared interfaces + typed error classes
+├── index.ts              Entry point — stdio transport, process lifecycle
+├── server.ts             McpServer — all 6 tools registered with Zod schemas
+├── types.ts              Interfaces + typed error classes (SecurityError, CircularDepError…)
 │
-├── tools/                One handler per tool — thin, composable
+├── tools/                Thin handlers — validate input, compose modules, format output
 │   ├── add-component.ts
 │   ├── detect-project.ts
 │   ├── get-component-info.ts
@@ -247,17 +272,17 @@ src/
 │   └── search-components.ts
 │
 ├── registry/
-│   ├── client.ts         HTTPS-only fetch, host whitelist, 5-min index cache
-│   └── resolver.ts       Recursive dep tree, cycle detection, depth limit
+│   ├── client.ts         HTTPS-only fetch · host whitelist · 5-min in-memory cache · 2× retry
+│   └── resolver.ts       Recursive dep tree · cycle detection (visited set) · depth limit 20
 │
 ├── project/
-│   ├── analyzer.ts       Walks up to components.json, framework + pkg manager detection
-│   └── scanner.ts        Checks installed components by scanning dirs
+│   ├── analyzer.ts       Walks up to components.json · framework + pkg manager detection
+│   └── scanner.ts        Checks installed components by scanning configured directories
 │
 └── writer/
-    ├── file-writer.ts    Path-validated file writes, dry-run support
-    ├── css-writer.ts     Idempotent CSS variable merging
-    └── pkg-installer.ts  execFile-based package installation
+    ├── file-writer.ts    Path-validated writes · dry-run support · directory auto-creation
+    ├── css-writer.ts     Idempotent CSS variable merging · skips existing vars
+    └── pkg-installer.ts  execFile-based installs · per-package fallback on batch failure
 ```
 
 ---
@@ -269,27 +294,37 @@ git clone https://github.com/Rachidhssin/shadcn-registry-mcp
 cd shadcn-registry-mcp
 npm install
 
-npm run dev        # Run with tsx (no build step)
-npm run build      # Compile to dist/
-npm test           # Run 12 tests with vitest
-npm run test:watch # Watch mode
+npm run dev          # Run with tsx — no build step needed
+npm run build        # Compile TypeScript → dist/
+npm test             # Run 12 tests with vitest
+npm run test:watch   # Watch mode
 ```
+
+---
+
+## Roadmap
+
+- [ ] Fuzzy search / "did you mean?" suggestions on typos
+- [ ] `remove_component` tool — clean uninstall with CSS var cleanup
+- [ ] Component category groups — `add all form components` in one call
+- [ ] Custom registry support (internal design systems)
+- [ ] `.mcpb` bundle for one-click install in supported clients
 
 ---
 
 ## Contributing
 
-1. Fork and create a branch: `git checkout -b feat/your-feature`
+1. Fork and branch: `git checkout -b feat/your-feature`
 2. Make changes with tests
-3. Confirm `npm test` and `npm run build` both pass cleanly
-4. Open a pull request
+3. Verify: `npm test` and `npm run build` both pass cleanly
+4. Open a PR
 
-All security properties must be preserved. New network destinations, file paths, or shell invocations require explicit justification.
+All security properties must be preserved. New network destinations, filesystem paths, or shell invocations require explicit justification in the PR description.
 
 ---
 
 <div align="center">
 
-MIT License · Built with [MCP SDK](https://modelcontextprotocol.io) · Powered by the [shadcn/ui registry](https://ui.shadcn.com)
+MIT License &nbsp;·&nbsp; Built with the [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk) &nbsp;·&nbsp; Powered by the [shadcn/ui registry](https://ui.shadcn.com)
 
 </div>
