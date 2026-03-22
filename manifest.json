@@ -1,0 +1,60 @@
+{
+  "dxt_version": "0.1",
+  "name": "shadcn-registry-mcp",
+  "display_name": "shadcn Registry MCP",
+  "version": "1.0.0",
+  "description": "Install and manage shadcn/ui components via AI agents — no terminal required",
+  "long_description": "shadcn-registry-mcp gives your AI direct access to the official shadcn/ui component registry. It installs components, resolves the full dependency tree, writes files, merges CSS variables, and runs your package manager — all from a conversation. Supports Next.js App Router, Next.js Pages Router, Vite, and any shadcn-initialized project. Security-hardened: network egress locked to ui.shadcn.com, path traversal prevention, no shell injection.",
+  "author": {
+    "name": "Rachidhssin",
+    "url": "https://github.com/Rachidhssin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rachidhssin/shadcn-registry-mcp"
+  },
+  "license": "MIT",
+  "keywords": ["shadcn", "ui", "components", "mcp", "react", "nextjs", "vite"],
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/index.js"]
+    }
+  },
+  "tools": [
+    {
+      "name": "detect_project",
+      "description": "Detect project framework, package manager, and shadcn configuration"
+    },
+    {
+      "name": "list_components",
+      "description": "List all available shadcn/ui components; filter by category"
+    },
+    {
+      "name": "list_groups",
+      "description": "List predefined component groups for bulk installation"
+    },
+    {
+      "name": "search_components",
+      "description": "Search components by name or keyword, ranked by relevance"
+    },
+    {
+      "name": "get_component_info",
+      "description": "Get component details: files, dependencies, CSS vars, and install status"
+    },
+    {
+      "name": "add_component",
+      "description": "Install components with full dependency resolution; supports dryRun and group installs"
+    },
+    {
+      "name": "remove_component",
+      "description": "Remove installed components by deleting their files"
+    },
+    {
+      "name": "list_installed",
+      "description": "See which shadcn components are currently installed in your project"
+    }
+  ]
+}

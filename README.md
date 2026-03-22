@@ -64,6 +64,9 @@ npx shadcn@latest init
 
 **Step 2 — Add the MCP server to your AI client**
 
+> **One-click install:** If your client supports `.mcpb` bundles (Claude Desktop, MCP for Windows), download `shadcn-registry-mcp.mcpb` from the [releases page](https://github.com/Rachidhssin/shadcn-registry-mcp/releases) and open it. No terminal needed.
+
+
 <details>
 <summary>🖥️ &nbsp;<strong>Claude Desktop</strong></summary>
 <br/>
@@ -345,8 +348,9 @@ npm install
 
 npm run dev          # Run with tsx — no build step needed
 npm run build        # Compile TypeScript → dist/
-npm test             # Run 12 tests with vitest
+npm test             # Run 18 tests with vitest
 npm run test:watch   # Watch mode
+npm run pack:bundle  # Build + create shadcn-registry-mcp.mcpb bundle
 ```
 
 ---
@@ -357,7 +361,7 @@ npm run test:watch   # Watch mode
 - [x] `remove_component` tool — clean uninstall
 - [x] Component category groups — `add all form components` in one call
 - [x] Custom registry support (internal design systems)
-- [ ] `.mcpb` bundle for one-click install in supported clients
+- [x] `.mcpb` bundle for one-click install in supported clients
 
 ---
 
