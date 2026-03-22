@@ -81,16 +81,40 @@ export function collectNpmPackages(deps: ResolvedDep[]): string[] {
 }
 
 /**
+ * Levenshtein distance between two strings (case-insensitive).
+ * Used for fuzzy component name matching.
+ */
+function levenshtein(a: string, b: string): number {
+  const m = a.length;
+  const n = b.length;
+  const dp: number[][] = Array.from({ length: m + 1 }, (_, i) =>
+    Array.from({ length: n + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0))
+  );
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      dp[i][j] =
+        a[i - 1] === b[j - 1]
+          ? dp[i - 1][j - 1]
+          : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+    }
+  }
+  return dp[m][n];
+}
+
+/**
  * Searches the registry index for a component name, returning suggestions
- * for similar names if not found exactly.
+ * for similar names using Levenshtein distance and substring matching.
+ * Returns up to 5 closest matches.
  */
 export async function findComponentSuggestions(name: string): Promise<string[]> {
   try {
     const index = await fetchRegistryIndex();
     const lower = name.toLowerCase();
     return index
-      .filter(item => item.name.toLowerCase().includes(lower) || lower.includes(item.name.toLowerCase()))
-      .map(item => item.name)
+      .map(item => ({ name: item.name, dist: levenshtein(lower, item.name.toLowerCase()) }))
+      .filter(({ name: n, dist }) => dist <= 3 || n.includes(lower) || lower.includes(n))
+      .sort((a, b) => a.dist - b.dist)
+      .map(({ name: n }) => n)
       .slice(0, 5);
   } catch {
     return [];

@@ -1,21 +1,32 @@
-import { resolveDependencyTree, collectNpmPackages } from '../registry/resolver.js';
+import { resolveDependencyTree, collectNpmPackages, findComponentSuggestions } from '../registry/resolver.js';
 import { detectProject } from '../project/analyzer.js';
 import { writeComponentFiles, dryRunComponentFiles } from '../writer/file-writer.js';
 import { mergeCssVars } from '../writer/css-writer.js';
 import { installPackages } from '../writer/pkg-installer.js';
 import { ComponentNotFoundError, CircularDepError } from '../types.js';
+import { resolveGroup } from '../registry/groups.js';
 
 interface AddComponentOptions {
-  names: string[];
+  names?: string[];
+  group?: string;
   dryRun?: boolean;
 }
 
-export async function handleAddComponent({ names, dryRun = false }: AddComponentOptions): Promise<string> {
-  if (!names || names.length === 0) {
-    return 'Error: at least one component name is required';
+export async function handleAddComponent({ names, group, dryRun = false }: AddComponentOptions): Promise<string> {
+  // Resolve group → names if a group was specified
+  if (group) {
+    const groupResult = resolveGroup(group);
+    if (!groupResult) {
+      return `Error: unknown group '${group}'. Available groups: form, layout, navigation, overlay, data, feedback, typography`;
+    }
+    names = [...(names ?? []), ...groupResult.components];
   }
 
-  const validNames = names.filter(n => n.trim().length > 0);
+  if (!names || names.length === 0) {
+    return 'Error: provide at least one component name or a group (e.g. group: "form")';
+  }
+
+  const validNames = [...new Set(names.filter(n => n.trim().length > 0))];
   if (validNames.length === 0) {
     return 'Error: component names cannot be empty';
   }
@@ -82,7 +93,9 @@ export async function handleAddComponent({ names, dryRun = false }: AddComponent
 
       } catch (err) {
         if (err instanceof ComponentNotFoundError) {
-          failedComponents.push({ name: componentName, error: `Not found in registry` });
+          const suggestions = await findComponentSuggestions(componentName);
+          const hint = suggestions.length > 0 ? ` Did you mean: ${suggestions.join(', ')}?` : '';
+          failedComponents.push({ name: componentName, error: `Not found in registry.${hint}` });
         } else if (err instanceof CircularDepError) {
           failedComponents.push({ name: componentName, error: err.message });
         } else {

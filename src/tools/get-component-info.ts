@@ -1,4 +1,5 @@
 import { fetchRegistryItem } from '../registry/client.js';
+import { findComponentSuggestions } from '../registry/resolver.js';
 import { isComponentInstalled } from '../project/scanner.js';
 import { detectProject } from '../project/analyzer.js';
 import { ComponentNotFoundError } from '../types.js';
@@ -54,7 +55,9 @@ export async function handleGetComponentInfo(name: string): Promise<string> {
     return lines.join('\n');
   } catch (err) {
     if (err instanceof ComponentNotFoundError) {
-      return `Component '${name}' not found in the shadcn registry.`;
+      const suggestions = await findComponentSuggestions(name);
+      const hint = suggestions.length > 0 ? `\nDid you mean: ${suggestions.join(', ')}?` : '';
+      return `Component '${name}' not found in the shadcn registry.${hint}`;
     }
     const message = err instanceof Error ? err.message : String(err);
     return `Error: ${message}`;

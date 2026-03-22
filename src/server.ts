@@ -4,6 +4,7 @@ import { handleListComponents } from './tools/list-components.js';
 import { handleSearchComponents } from './tools/search-components.js';
 import { handleGetComponentInfo } from './tools/get-component-info.js';
 import { handleAddComponent } from './tools/add-component.js';
+import { handleRemoveComponent } from './tools/remove-component.js';
 import { handleListInstalled } from './tools/list-installed.js';
 import { handleDetectProject } from './tools/detect-project.js';
 
@@ -71,8 +72,14 @@ export function createServer(): McpServer {
       inputSchema: {
         names: z
           .array(z.string().min(1))
-          .min(1)
+          .optional()
           .describe('Component names to install (e.g. ["button", "dialog"])'),
+        group: z
+          .string()
+          .optional()
+          .describe(
+            'Install a predefined group of related components. Available: form, layout, navigation, overlay, data, feedback, typography'
+          ),
         dryRun: z
           .boolean()
           .optional()
@@ -81,8 +88,28 @@ export function createServer(): McpServer {
       },
       annotations: { destructiveHint: true, idempotentHint: true },
     },
-    async ({ names, dryRun }) => {
-      const result = await handleAddComponent({ names, dryRun });
+    async ({ names, group, dryRun }) => {
+      const result = await handleAddComponent({ names, group, dryRun });
+      return { content: [{ type: 'text', text: result }] };
+    }
+  );
+
+  // Tool: remove_component
+  server.registerTool(
+    'remove_component',
+    {
+      description:
+        'Remove one or more installed shadcn/ui components from the project by deleting their files',
+      inputSchema: {
+        names: z
+          .array(z.string().min(1))
+          .min(1)
+          .describe('Component names to remove (e.g. ["button", "dialog"])'),
+      },
+      annotations: { destructiveHint: true, idempotentHint: false },
+    },
+    async ({ names }) => {
+      const result = await handleRemoveComponent({ names });
       return { content: [{ type: 'text', text: result }] };
     }
   );
@@ -98,6 +125,21 @@ export function createServer(): McpServer {
     async () => {
       const result = await handleListInstalled();
       return { content: [{ type: 'text', text: result }] };
+    }
+  );
+
+  // Tool: list_groups
+  server.registerTool(
+    'list_groups',
+    {
+      description:
+        'List all available component groups for bulk installation (e.g. "form", "overlay", "navigation")',
+      inputSchema: {},
+      annotations: { readOnlyHint: true, idempotentHint: true },
+    },
+    async () => {
+      const { listGroups } = await import('./registry/groups.js');
+      return { content: [{ type: 'text', text: listGroups() }] };
     }
   );
 
