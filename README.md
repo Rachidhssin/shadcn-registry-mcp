@@ -8,7 +8,7 @@
 
 [![npm](https://img.shields.io/badge/npm-shadcn--registry--mcp-CB3837?style=flat-square&logo=npm&logoColor=white)](https://www.npmjs.com/package/shadcn-registry-mcp)
 [![license](https://img.shields.io/github/license/Rachidhssin/shadcn-registry-mcp?style=flat-square&color=brightgreen)](LICENSE)
-[![tests](https://img.shields.io/badge/tests-24%20passing-22c55e?style=flat-square&logo=vitest&logoColor=white)](tests/)
+[![tests](https://img.shields.io/badge/tests-42%20passing-22c55e?style=flat-square&logo=vitest&logoColor=white)](tests/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript&logoColor=white)](tsconfig.json)
 [![MCP](https://img.shields.io/badge/MCP-stdio-8B5CF6?style=flat-square)](https://modelcontextprotocol.io)
 [![Node](https://img.shields.io/badge/Node.js-18%2B-339933?style=flat-square&logo=node.js&logoColor=white)](package.json)
@@ -335,6 +335,20 @@ src/
     ├── file-remover.ts   Path-validated deletion · returns deleted file list
     ├── css-writer.ts     Idempotent CSS variable merging · skips existing vars
     └── pkg-installer.ts  execFile-based installs · per-package fallback on batch failure
+
+tests/
+├── registry/
+│   └── client.test.ts    RegistryClient unit tests — fetch, caching, security, custom registry
+├── project/
+│   └── analyzer.test.ts  Project detection unit tests
+├── writer/
+│   ├── file-writer.test.ts   Path validation and write logic
+│   └── file-remover.test.ts  Path traversal security + deletion
+└── e2e/
+    ├── helpers.ts            Temp project factory · mock registry fixtures
+    ├── add-component.test.ts  Full pipeline: dry-run, install, skip, transitive deps, suggestions
+    ├── remove-component.test.ts  Delete, no-op, partial, multi-component
+    └── detect-project.test.ts  Framework detection, alias resolution, missing config
 ```
 
 ---
@@ -348,7 +362,7 @@ npm install
 
 npm run dev          # Run with tsx — no build step needed
 npm run build        # Compile TypeScript → dist/
-npm test             # Run 24 tests with vitest
+npm test             # Run 42 tests with vitest (unit + E2E)
 npm run test:watch   # Watch mode
 npm run pack:bundle  # Build + create shadcn-registry-mcp.mcpb bundle
 ```

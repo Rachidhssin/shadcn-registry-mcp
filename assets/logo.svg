@@ -1,85 +1,126 @@
 <svg width="840" height="200" viewBox="0 0 840 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="840" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0C0C0F"/>
+      <stop offset="100%" stop-color="#09090B"/>
+    </linearGradient>
+    <linearGradient id="accentBar" x1="0" y1="0" x2="0" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0"/>
+      <stop offset="35%" stop-color="#8B5CF6"/>
+      <stop offset="65%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#6D28D9" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="hubRing" x1="114" y1="84" x2="146" y2="116" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#A78BFA"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fadeRule" x1="252" y1="0" x2="820" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#27272A"/>
+      <stop offset="70%" stop-color="#27272A" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#27272A" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
   <!-- Background -->
-  <rect width="840" height="200" rx="20" fill="#09090B"/>
+  <rect width="840" height="200" rx="14" fill="url(#bgGrad)"/>
 
-  <!-- Subtle radial glow behind icon -->
-  <ellipse cx="130" cy="100" rx="120" ry="80" fill="#18181B" opacity="0.6"/>
+  <!-- Left accent bar -->
+  <rect x="0" y="0" width="3" height="200" rx="1.5" fill="url(#accentBar)"/>
 
-  <!-- Decorative dot grid (right side) -->
-  <g opacity="0.18">
-    <circle cx="680" cy="40" r="1.5" fill="#71717A"/><circle cx="700" cy="40" r="1.5" fill="#71717A"/><circle cx="720" cy="40" r="1.5" fill="#71717A"/><circle cx="740" cy="40" r="1.5" fill="#71717A"/><circle cx="760" cy="40" r="1.5" fill="#71717A"/><circle cx="780" cy="40" r="1.5" fill="#71717A"/><circle cx="800" cy="40" r="1.5" fill="#71717A"/>
-    <circle cx="680" cy="60" r="1.5" fill="#71717A"/><circle cx="700" cy="60" r="1.5" fill="#71717A"/><circle cx="720" cy="60" r="1.5" fill="#71717A"/><circle cx="740" cy="60" r="1.5" fill="#71717A"/><circle cx="760" cy="60" r="1.5" fill="#71717A"/><circle cx="780" cy="60" r="1.5" fill="#71717A"/><circle cx="800" cy="60" r="1.5" fill="#71717A"/>
-    <circle cx="680" cy="80" r="1.5" fill="#71717A"/><circle cx="700" cy="80" r="1.5" fill="#71717A"/><circle cx="720" cy="80" r="1.5" fill="#71717A"/><circle cx="740" cy="80" r="1.5" fill="#71717A"/><circle cx="760" cy="80" r="1.5" fill="#71717A"/><circle cx="780" cy="80" r="1.5" fill="#71717A"/><circle cx="800" cy="80" r="1.5" fill="#71717A"/>
-    <circle cx="680" cy="100" r="1.5" fill="#71717A"/><circle cx="700" cy="100" r="1.5" fill="#71717A"/><circle cx="720" cy="100" r="1.5" fill="#71717A"/><circle cx="740" cy="100" r="1.5" fill="#71717A"/><circle cx="760" cy="100" r="1.5" fill="#71717A"/><circle cx="780" cy="100" r="1.5" fill="#71717A"/><circle cx="800" cy="100" r="1.5" fill="#71717A"/>
-    <circle cx="680" cy="120" r="1.5" fill="#71717A"/><circle cx="700" cy="120" r="1.5" fill="#71717A"/><circle cx="720" cy="120" r="1.5" fill="#71717A"/><circle cx="740" cy="120" r="1.5" fill="#71717A"/><circle cx="760" cy="120" r="1.5" fill="#71717A"/><circle cx="780" cy="120" r="1.5" fill="#71717A"/><circle cx="800" cy="120" r="1.5" fill="#71717A"/>
-    <circle cx="680" cy="140" r="1.5" fill="#71717A"/><circle cx="700" cy="140" r="1.5" fill="#71717A"/><circle cx="720" cy="140" r="1.5" fill="#71717A"/><circle cx="740" cy="140" r="1.5" fill="#71717A"/><circle cx="760" cy="140" r="1.5" fill="#71717A"/><circle cx="780" cy="140" r="1.5" fill="#71717A"/><circle cx="800" cy="140" r="1.5" fill="#71717A"/>
-    <circle cx="680" cy="160" r="1.5" fill="#71717A"/><circle cx="700" cy="160" r="1.5" fill="#71717A"/><circle cx="720" cy="160" r="1.5" fill="#71717A"/><circle cx="740" cy="160" r="1.5" fill="#71717A"/><circle cx="760" cy="160" r="1.5" fill="#71717A"/><circle cx="780" cy="160" r="1.5" fill="#71717A"/><circle cx="800" cy="160" r="1.5" fill="#71717A"/>
-  </g>
+  <!-- ── ICON (hub + 4 cards, centre at 128,100) ── -->
 
-  <!-- ===== ICON: 2x2 component grid ===== -->
+  <!-- Hub glow -->
+  <ellipse cx="128" cy="100" rx="58" ry="58" fill="url(#hubGlow)"/>
 
-  <!-- Top-left card -->
-  <rect x="36" y="42" width="88" height="52" rx="7" fill="#18181B" stroke="#27272A" stroke-width="1.5"/>
-  <rect x="50" y="55" width="28" height="4" rx="2" fill="#3F3F46"/>
-  <rect x="50" y="64" width="50" height="3" rx="1.5" fill="#27272A"/>
-  <rect x="50" y="72" width="38" height="3" rx="1.5" fill="#27272A"/>
+  <!-- Connection lines -->
+  <line x1="110" y1="100" x2="94"  y2="100" stroke="#2A2A2E" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="146" y1="100" x2="162" y2="100" stroke="#2A2A2E" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="128" y1="82"  x2="128" y2="66"  stroke="#2A2A2E" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="128" y1="118" x2="128" y2="134" stroke="#2A2A2E" stroke-width="1.5" stroke-linecap="round"/>
 
-  <!-- Top-right card -->
-  <rect x="136" y="42" width="88" height="52" rx="7" fill="#18181B" stroke="#27272A" stroke-width="1.5"/>
-  <rect x="150" y="55" width="36" height="4" rx="2" fill="#3F3F46"/>
-  <rect x="150" y="64" width="42" height="3" rx="1.5" fill="#27272A"/>
-  <rect x="150" y="72" width="26" height="3" rx="1.5" fill="#27272A"/>
+  <!-- Connection end-nodes (violet dots) -->
+  <circle cx="94"  cy="100" r="2.8" fill="#8B5CF6" opacity="0.7"/>
+  <circle cx="162" cy="100" r="2.8" fill="#8B5CF6" opacity="0.7"/>
+  <circle cx="128" cy="66"  r="2.8" fill="#8B5CF6" opacity="0.7"/>
+  <circle cx="128" cy="134" r="2.8" fill="#8B5CF6" opacity="0.7"/>
 
-  <!-- Bottom-left card -->
-  <rect x="36" y="106" width="88" height="52" rx="7" fill="#18181B" stroke="#27272A" stroke-width="1.5"/>
-  <rect x="50" y="119" width="44" height="4" rx="2" fill="#3F3F46"/>
-  <rect x="50" y="128" width="30" height="3" rx="1.5" fill="#27272A"/>
-  <rect x="50" y="136" width="54" height="3" rx="1.5" fill="#27272A"/>
+  <!-- Hub circle -->
+  <circle cx="128" cy="100" r="18" fill="#111115" stroke="#2E2E34" stroke-width="1.5"/>
+  <circle cx="128" cy="100" r="12" fill="none"    stroke="url(#hubRing)" stroke-width="1.8" filter="url(#glow)"/>
+  <circle cx="128" cy="100" r="4.5" fill="#8B5CF6" opacity="0.95"/>
 
-  <!-- Bottom-right card (accent — represents MCP) -->
-  <rect x="136" y="106" width="88" height="52" rx="7" fill="#18181B" stroke="#3F3F46" stroke-width="1.5"/>
-  <!-- MCP label chip -->
-  <rect x="150" y="117" width="30" height="14" rx="4" fill="#27272A" stroke="#3F3F46" stroke-width="1"/>
-  <text x="158" y="128" font-family="ui-monospace, monospace" font-size="7" fill="#71717A" font-weight="600">MCP</text>
-  <rect x="150" y="136" width="52" height="3" rx="1.5" fill="#27272A"/>
-  <rect x="150" y="143" width="36" height="3" rx="1.5" fill="#27272A"/>
+  <!-- Card: LEFT (x=46, y=82, 48×36) -->
+  <rect x="46" y="82" width="48" height="36" rx="6" fill="#111115" stroke="#27272A" stroke-width="1.2"/>
+  <rect x="54" y="92" width="22" height="3"   rx="1.5" fill="#3F3F46"/>
+  <rect x="54" y="99" width="32" height="2.5" rx="1.2" fill="#27272A"/>
+  <rect x="54" y="105" width="24" height="2.5" rx="1.2" fill="#27272A"/>
 
-  <!-- Inner connection lines between cards -->
-  <line x1="124" y1="68" x2="136" y2="68" stroke="#27272A" stroke-width="1.5"/>
-  <line x1="124" y1="132" x2="136" y2="132" stroke="#27272A" stroke-width="1.5"/>
-  <line x1="80" y1="94" x2="80" y2="106" stroke="#27272A" stroke-width="1.5"/>
-  <line x1="180" y1="94" x2="180" y2="106" stroke="#27272A" stroke-width="1.5"/>
+  <!-- Card: RIGHT (x=162, y=82, 48×36) -->
+  <rect x="162" y="82" width="48" height="36" rx="6" fill="#111115" stroke="#27272A" stroke-width="1.2"/>
+  <rect x="170" y="92" width="28" height="3"   rx="1.5" fill="#3F3F46"/>
+  <rect x="170" y="99" width="18" height="2.5" rx="1.2" fill="#27272A"/>
+  <rect x="170" y="105" width="28" height="2.5" rx="1.2" fill="#27272A"/>
 
-  <!-- Center dot at intersection -->
-  <circle cx="130" cy="100" r="3" fill="#27272A" stroke="#3F3F46" stroke-width="1"/>
+  <!-- Card: TOP (x=104, y=30, 48×36) -->
+  <rect x="104" y="30" width="48" height="36" rx="6" fill="#111115" stroke="#27272A" stroke-width="1.2"/>
+  <rect x="112" y="40" width="18" height="3"   rx="1.5" fill="#3F3F46"/>
+  <rect x="112" y="47" width="30" height="2.5" rx="1.2" fill="#27272A"/>
+  <rect x="112" y="53" width="22" height="2.5" rx="1.2" fill="#27272A"/>
 
-  <!-- Arrow: icon → text -->
-  <line x1="244" y1="100" x2="272" y2="100" stroke="#3F3F46" stroke-width="1.5" stroke-dasharray="4 3"/>
-  <polyline points="268,95.5 273,100 268,104.5" stroke="#3F3F46" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Card: BOTTOM — violet accent (MCP) (x=104, y=134, 48×36) -->
+  <rect x="104" y="134" width="48" height="36" rx="6" fill="#110E1F" stroke="#6D28D9" stroke-width="1.3"/>
+  <rect x="112" y="143" width="30" height="12" rx="3.5" fill="#1A1232"/>
+  <text x="116.5" y="152.5" font-family="ui-monospace, 'Courier New', monospace" font-size="7" fill="#A78BFA" font-weight="700" letter-spacing="0.5">MCP</text>
+  <rect x="112" y="158" width="22" height="2.5" rx="1.2" fill="#27272A"/>
+  <rect x="112" y="163" width="30" height="2.5" rx="1.2" fill="#27272A"/>
 
-  <!-- ===== TEXT ===== -->
+  <!-- ── VERTICAL DIVIDER ── -->
+  <line x1="234" y1="38" x2="234" y2="162" stroke="#1E1E22" stroke-width="1"/>
 
-  <!-- "shadcn" big bold -->
-  <text x="288" y="88" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace" font-size="46" font-weight="700" fill="#FAFAFA" letter-spacing="-1">shadcn</text>
+  <!-- ── TYPOGRAPHY ── -->
 
-  <!-- "registry-mcp" accent line -->
-  <text x="291" y="120" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace" font-size="19" font-weight="400" fill="#52525B" letter-spacing="4">registry-mcp</text>
+  <!-- wordmark: "shadcn" -->
+  <text x="258" y="92"
+        font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace"
+        font-size="50" font-weight="700" fill="#FAFAFA" letter-spacing="-2">shadcn</text>
 
-  <!-- Divider line -->
-  <line x1="290" y1="133" x2="620" y2="133" stroke="#1C1C1F" stroke-width="1"/>
+  <!-- subtitle: "registry·mcp" -->
+  <text x="261" y="122"
+        font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, 'Courier New', monospace"
+        font-size="18" font-weight="400" fill="#52525B" letter-spacing="5.5">registry-mcp</text>
 
-  <!-- Tagline -->
-  <text x="291" y="154" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" fill="#3F3F46" letter-spacing="0.3">Install any shadcn/ui component via your AI assistant — no terminal required.</text>
+  <!-- fade rule under subtitle -->
+  <rect x="261" y="130" width="220" height="1" rx="0.5" fill="url(#fadeRule)"/>
 
-  <!-- Version pill -->
-  <rect x="291" y="163" width="54" height="18" rx="5" fill="#18181B" stroke="#27272A" stroke-width="1"/>
-  <text x="299" y="175.5" font-family="ui-monospace, monospace" font-size="9" fill="#52525B">v1.0.0</text>
+  <!-- tagline -->
+  <text x="261" y="152"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+        font-size="12.5" fill="#3F3F46" letter-spacing="0.1">
+    Install any shadcn/ui component via your AI assistant — no terminal required.
+  </text>
+
+  <!-- Pills -->
+  <!-- Node.js pill -->
+  <rect x="261" y="164" width="52" height="17" rx="4.5" fill="#111115" stroke="#27272A" stroke-width="1"/>
+  <text x="269.5" y="176" font-family="ui-monospace, monospace" font-size="8.5" fill="#52525B">Node 18+</text>
+
+  <!-- TypeScript pill -->
+  <rect x="319" y="164" width="68" height="17" rx="4.5" fill="#0F172A" stroke="#1E3A8A" stroke-width="1"/>
+  <text x="327" y="176" font-family="ui-monospace, monospace" font-size="8.5" fill="#3B82F6">TypeScript</text>
+
+  <!-- MCP pill (violet accent) -->
+  <rect x="393" y="164" width="44" height="17" rx="4.5" fill="#110E1F" stroke="#6D28D9" stroke-width="1"/>
+  <text x="402.5" y="176" font-family="ui-monospace, monospace" font-size="8.5" fill="#A78BFA" font-weight="600">MCP</text>
 
   <!-- MIT pill -->
-  <rect x="351" y="163" width="38" height="18" rx="5" fill="#18181B" stroke="#27272A" stroke-width="1"/>
-  <text x="359" y="175.5" font-family="ui-monospace, monospace" font-size="9" fill="#52525B">MIT</text>
-
-  <!-- MCP pill -->
-  <rect x="395" y="163" width="38" height="18" rx="5" fill="#18181B" stroke="#27272A" stroke-width="1"/>
-  <text x="402" y="175.5" font-family="ui-monospace, monospace" font-size="9" fill="#52525B">MCP</text>
+  <rect x="443" y="164" width="34" height="17" rx="4.5" fill="#111115" stroke="#27272A" stroke-width="1"/>
+  <text x="451.5" y="176" font-family="ui-monospace, monospace" font-size="8.5" fill="#52525B">MIT</text>
 </svg>
