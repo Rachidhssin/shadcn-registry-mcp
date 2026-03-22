@@ -1,11 +1,11 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Mock global fetch for unit tests
 const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);
 
 // Re-import after mock
-const { fetchRegistryIndex, fetchRegistryItem, clearIndexCache } = await import('../../src/registry/client.js');
+const { fetchRegistryIndex, fetchRegistryItem, clearIndexCache, buildAllowedHosts } = await import('../../src/registry/client.js');
 
 describe('RegistryClient', () => {
   beforeEach(() => {
@@ -73,6 +73,54 @@ describe('RegistryClient', () => {
       await expect(
         fetchRegistryItem('../../../etc/passwd', 'default')
       ).rejects.toThrow();
+    });
+
+    it('uses custom registry first and falls back to official on 404', async () => {
+      // Custom registry returns 404 for both style path and flat path
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 404 }); // custom style path
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 404 }); // custom flat path
+      // Official registry returns the component
+      const mockItem = { name: 'button', type: 'registry:ui', files: [] };
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => mockItem });
+
+      const result = await fetchRegistryItem('button', 'default', 'https://custom.internal.com/r');
+      expect(result.name).toBe('button');
+      expect(mockFetch).toHaveBeenCalledTimes(3);
+      expect(mockFetch.mock.calls[0][0]).toContain('custom.internal.com');
+      expect(mockFetch.mock.calls[2][0]).toContain('ui.shadcn.com');
+    });
+
+    it('returns item from custom registry without hitting official', async () => {
+      const mockItem = { name: 'my-card', type: 'registry:ui', files: [] };
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => mockItem });
+
+      const result = await fetchRegistryItem('my-card', 'default', 'https://custom.internal.com/r');
+      expect(result.name).toBe('my-card');
+      expect(mockFetch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('buildAllowedHosts', () => {
+    it('always includes the official shadcn host', () => {
+      const hosts = buildAllowedHosts();
+      expect(hosts.has('ui.shadcn.com')).toBe(true);
+    });
+
+    it('adds custom registry hostname when a valid HTTPS URL is provided', () => {
+      const hosts = buildAllowedHosts('https://registry.company.com/r');
+      expect(hosts.has('registry.company.com')).toBe(true);
+      expect(hosts.has('ui.shadcn.com')).toBe(true);
+    });
+
+    it('ignores HTTP custom registry URLs (security: HTTPS only)', () => {
+      const hosts = buildAllowedHosts('http://registry.company.com/r');
+      expect(hosts.has('registry.company.com')).toBe(false);
+      expect(hosts.has('ui.shadcn.com')).toBe(true);
+    });
+
+    it('ignores invalid custom registry URLs gracefully', () => {
+      const hosts = buildAllowedHosts('not-a-url');
+      expect(hosts.size).toBe(1); // only official
     });
   });
 });

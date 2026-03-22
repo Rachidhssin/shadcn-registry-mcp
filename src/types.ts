@@ -51,6 +51,8 @@ export interface ComponentsConfig {
     hooks?: string;
   };
   iconLibrary?: string;
+  /** Optional custom registry base URL (e.g. "https://registry.internal.com/r"). Must be HTTPS. */
+  registryUrl?: string;
 }
 
 export interface ProjectInfo {

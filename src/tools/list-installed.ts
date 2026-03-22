@@ -5,7 +5,7 @@ import { detectProject } from '../project/analyzer.js';
 export async function handleListInstalled(): Promise<string> {
   try {
     const project = await detectProject();
-    const index = await fetchRegistryIndex();
+    const index = await fetchRegistryIndex(project.config.registryUrl);
     const registryNames = new Set(index.map(item => item.name));
     const installed = await scanInstalledComponents(project, registryNames);
 

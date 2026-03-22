@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebSearch",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(where gh:*)",
+      "Bash(winget list:*)",
+      "Bash(cmd /c \"where gh\")",
+      "Bash(cmd /c \"gh --version\")",
+      "Bash(GH=\"/c/Program Files/GitHub CLI/gh.exe\")",
+      "Bash(\"$GH\" auth:*)",
+      "Bash(\"$GH\" repo:*)",
+      "Bash(npm test:*)",
+      "Bash(timeout 3 node dist/index.js)",
+      "Read(//e/.claude/projects/e--shadcn-ui/memory/**)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm run:*)"
+    ],
+    "additionalDirectories": [
+      "e:\\shadcn_ui\\src"
+    ]
+  }
+}

@@ -1,4 +1,5 @@
 import { fetchRegistryIndex } from '../registry/client.js';
+import { detectProject } from '../project/analyzer.js';
 import type { RegistryItem } from '../types.js';
 
 function scoreMatch(item: RegistryItem, query: string): number {
@@ -16,7 +17,13 @@ export async function handleSearchComponents(query: string): Promise<string> {
   if (!query.trim()) return 'Error: search query cannot be empty';
 
   try {
-    const index = await fetchRegistryIndex();
+    let customRegistryUrl: string | undefined;
+    try {
+      const project = await detectProject();
+      customRegistryUrl = project.config.registryUrl;
+    } catch { /* not in a shadcn project — use official registry */ }
+
+    const index = await fetchRegistryIndex(customRegistryUrl);
     const scored = index
       .map(item => ({ item, score: scoreMatch(item, query) }))
       .filter(({ score }) => score > 0)

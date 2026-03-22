@@ -8,7 +8,7 @@
 
 [![npm](https://img.shields.io/badge/npm-shadcn--registry--mcp-CB3837?style=flat-square&logo=npm&logoColor=white)](https://www.npmjs.com/package/shadcn-registry-mcp)
 [![license](https://img.shields.io/github/license/Rachidhssin/shadcn-registry-mcp?style=flat-square&color=brightgreen)](LICENSE)
-[![tests](https://img.shields.io/badge/tests-12%20passing-22c55e?style=flat-square&logo=vitest&logoColor=white)](tests/)
+[![tests](https://img.shields.io/badge/tests-18%20passing-22c55e?style=flat-square&logo=vitest&logoColor=white)](tests/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript&logoColor=white)](tsconfig.json)
 [![MCP](https://img.shields.io/badge/MCP-stdio-8B5CF6?style=flat-square)](https://modelcontextprotocol.io)
 [![Node](https://img.shields.io/badge/Node.js-18%2B-339933?style=flat-square&logo=node.js&logoColor=white)](package.json)
@@ -217,6 +217,42 @@ npm packages that would be installed:
 
 ---
 
+## Custom Registries
+
+Point the MCP at an internal design system by adding `registryUrl` to your project's `components.json`:
+
+```json
+{
+  "style": "default",
+  "registryUrl": "https://registry.company.com/r",
+  ...
+}
+```
+
+Or set the `SHADCN_REGISTRY_URL` environment variable (useful in CI or when you can't modify `components.json`):
+
+```json
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["-y", "shadcn-registry-mcp"],
+      "env": { "SHADCN_REGISTRY_URL": "https://registry.company.com/r" }
+    }
+  }
+}
+```
+
+**Behavior:** The custom registry is checked first. If a component isn't found there, the official shadcn registry is used as a fallback — so standard components keep working alongside your internal ones.
+
+**Custom registry format:** Two URL patterns are supported:
+- `{base}/styles/{style}/{name}.json` — shadcn-compatible (preferred)
+- `{base}/{name}.json` — flat layout for simpler registries
+
+**Security:** Only HTTPS URLs are permitted. The custom registry hostname is added to the allow-list based on `components.json` (a committed project file), not from tool inputs.
+
+---
+
 ## Security
 
 > The 2026 AI ecosystem has a supply chain problem. Malicious MCP servers disguise themselves as developer tools to steal SSH keys, credentials, and browser sessions.
@@ -320,7 +356,7 @@ npm run test:watch   # Watch mode
 - [x] Fuzzy search / "did you mean?" suggestions on typos
 - [x] `remove_component` tool — clean uninstall
 - [x] Component category groups — `add all form components` in one call
-- [ ] Custom registry support (internal design systems)
+- [x] Custom registry support (internal design systems)
 - [ ] `.mcpb` bundle for one-click install in supported clients
 
 ---

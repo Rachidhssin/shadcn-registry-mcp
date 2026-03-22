@@ -1,4 +1,5 @@
 import { fetchRegistryIndex } from '../registry/client.js';
+import { detectProject } from '../project/analyzer.js';
 import type { RegistryItem } from '../types.js';
 
 function formatItem(item: RegistryItem): string {
@@ -11,7 +12,13 @@ function formatItem(item: RegistryItem): string {
 
 export async function handleListComponents(category?: string): Promise<string> {
   try {
-    const index = await fetchRegistryIndex();
+    let customRegistryUrl: string | undefined;
+    try {
+      const project = await detectProject();
+      customRegistryUrl = project.config.registryUrl;
+    } catch { /* not in a shadcn project — use official registry */ }
+
+    const index = await fetchRegistryIndex(customRegistryUrl);
 
     let items = index.filter(item => item.type === 'registry:ui' || item.type === 'registry:component');
 

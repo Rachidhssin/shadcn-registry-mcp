@@ -5,9 +5,11 @@ import { detectProject } from '../project/analyzer.js';
 import { ComponentNotFoundError } from '../types.js';
 
 export async function handleGetComponentInfo(name: string): Promise<string> {
+  let registryUrl: string | undefined;
   try {
     const project = await detectProject();
-    const item = await fetchRegistryItem(name, project.config.style);
+    registryUrl = project.config.registryUrl;
+    const item = await fetchRegistryItem(name, project.config.style, registryUrl);
     const alreadyInstalled = await isComponentInstalled(name, project);
 
     const lines: string[] = [];
@@ -55,7 +57,7 @@ export async function handleGetComponentInfo(name: string): Promise<string> {
     return lines.join('\n');
   } catch (err) {
     if (err instanceof ComponentNotFoundError) {
-      const suggestions = await findComponentSuggestions(name);
+      const suggestions = await findComponentSuggestions(name, registryUrl);
       const hint = suggestions.length > 0 ? `\nDid you mean: ${suggestions.join(', ')}?` : '';
       return `Component '${name}' not found in the shadcn registry.${hint}`;
     }

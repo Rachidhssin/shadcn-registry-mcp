@@ -42,7 +42,7 @@ export async function resolveDependencyTree(
     await sleep(FETCH_DELAY_MS);
   }
 
-  const item = await fetchRegistryItem(name, style);
+  const item = await fetchRegistryItem(name, style, project.config.registryUrl);
   const results: ResolvedDep[] = [];
 
   // Resolve registry dependencies first (depth-first)
@@ -106,9 +106,9 @@ function levenshtein(a: string, b: string): number {
  * for similar names using Levenshtein distance and substring matching.
  * Returns up to 5 closest matches.
  */
-export async function findComponentSuggestions(name: string): Promise<string[]> {
+export async function findComponentSuggestions(name: string, customRegistryUrl?: string): Promise<string[]> {
   try {
-    const index = await fetchRegistryIndex();
+    const index = await fetchRegistryIndex(customRegistryUrl);
     const lower = name.toLowerCase();
     return index
       .map(item => ({ name: item.name, dist: levenshtein(lower, item.name.toLowerCase()) }))

@@ -93,7 +93,7 @@ export async function handleAddComponent({ names, group, dryRun = false }: AddCo
 
       } catch (err) {
         if (err instanceof ComponentNotFoundError) {
-          const suggestions = await findComponentSuggestions(componentName);
+          const suggestions = await findComponentSuggestions(componentName, project.config.registryUrl);
           const hint = suggestions.length > 0 ? ` Did you mean: ${suggestions.join(', ')}?` : '';
           failedComponents.push({ name: componentName, error: `Not found in registry.${hint}` });
         } else if (err instanceof CircularDepError) {
