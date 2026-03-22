@@ -1,0 +1,15 @@
+# Development
+src/
+tests/
+.claude/
+assets/
+
+# Config / docs
+PROJECT.md
+tsconfig.json
+manifest.json
+vitest.config.*
+
+# Misc
+*.tgz
+*.mcpb

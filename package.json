@@ -1,6 +1,6 @@
 {
   "name": "shadcn-registry-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for automated shadcn/ui component installation",
   "type": "module",
   "main": "dist/index.js",
