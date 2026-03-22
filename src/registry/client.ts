@@ -157,6 +157,12 @@ async function tryCustomRegistryItem(
   const flatUrl = `${base}/${name}.json`;
   const flatResponse = await fetchWithTimeout(flatUrl, allowedHosts);
   if (flatResponse.ok) return parseItemResponse(name, flatResponse);
+  if (flatResponse.status !== 404) {
+    throw new RegistryError(
+      `Custom registry returned HTTP ${flatResponse.status} for '${name}'`,
+      flatResponse.status
+    );
+  }
 
   // Not found in custom registry — caller falls back to official
   return null;

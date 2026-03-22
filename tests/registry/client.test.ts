@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 // Mock global fetch for unit tests
 const mockFetch = vi.fn();
@@ -97,6 +97,46 @@ describe('RegistryClient', () => {
       const result = await fetchRegistryItem('my-card', 'default', 'https://custom.internal.com/r');
       expect(result.name).toBe('my-card');
       expect(mockFetch).toHaveBeenCalledTimes(1);
+    });
+
+    it('propagates non-404 error from custom registry flat path (not silently falling back)', async () => {
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 404 }); // custom style path → 404
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 500 }); // custom flat path → 500
+
+      await expect(
+        fetchRegistryItem('my-card', 'default', 'https://custom.internal.com/r')
+      ).rejects.toThrow('HTTP 500');
+      expect(mockFetch).toHaveBeenCalledTimes(2);
+    });
+
+    it('uses SHADCN_REGISTRY_URL env var when no explicit URL is passed', async () => {
+      process.env.SHADCN_REGISTRY_URL = 'https://env-registry.company.com/r';
+      const mockItem = { name: 'env-button', type: 'registry:ui', files: [] };
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => mockItem });
+
+      const result = await fetchRegistryItem('env-button', 'default');
+      expect(result.name).toBe('env-button');
+      expect(mockFetch.mock.calls[0][0]).toContain('env-registry.company.com');
+      delete process.env.SHADCN_REGISTRY_URL;
+    });
+  });
+
+  describe('fetchRegistryIndex with SHADCN_REGISTRY_URL', () => {
+    afterEach(() => {
+      delete process.env.SHADCN_REGISTRY_URL;
+    });
+
+    it('uses SHADCN_REGISTRY_URL env var for index fetch when no explicit URL is passed', async () => {
+      process.env.SHADCN_REGISTRY_URL = 'https://env-registry.company.com/r';
+      const mockItems = [{ name: 'env-button', type: 'registry:ui' }];
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockItems,
+      });
+
+      const result = await fetchRegistryIndex();
+      expect(result).toEqual(mockItems);
+      expect(mockFetch.mock.calls[0][0]).toContain('env-registry.company.com');
     });
   });
 
