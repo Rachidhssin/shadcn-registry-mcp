@@ -131,25 +131,35 @@ Or manually in `.claude/mcp_settings.json`:
 
 ## Tools
 
-Six tools are exposed to your AI assistant:
+Eight tools are exposed to your AI assistant:
 
 | Tool | Description | Writes files |
 |---|---|:---:|
 | `detect_project` | Inspect framework, package manager, component dirs, and shadcn config | — |
 | `list_components` | Browse all available components; filter by category | — |
+| `list_groups` | List predefined component groups for bulk installation | — |
 | `search_components` | Find components by name or keyword, ranked by relevance | — |
 | `get_component_info` | Deep-dive: files, deps, CSS vars, install status in your project | — |
-| `add_component` | Install components with full dependency resolution; supports `dryRun` | ✓ |
+| `add_component` | Install components or entire groups with full dependency resolution; supports `dryRun` | ✓ |
+| `remove_component` | Uninstall one or more components by deleting their files | ✓ |
 | `list_installed` | See which shadcn components are already in your project | — |
 
 ### `add_component` in detail
 
 ```ts
+// Install specific components
 add_component({
-  names: ["sidebar"],   // one or more component names
-  dryRun: true          // preview without writing (default: false)
+  names: ["sidebar", "button"],   // one or more component names
+  dryRun: true                    // preview without writing (default: false)
+})
+
+// Install an entire group at once
+add_component({
+  group: "form"   // installs: input, textarea, select, checkbox, radio-group, switch, slider, label, form
 })
 ```
+
+**Available groups:** `form`, `layout`, `navigation`, `overlay`, `data`, `feedback`, `typography`
 
 **Example dry-run output:**
 
@@ -260,20 +270,22 @@ Every tool input is validated by a Zod schema before any code runs. Invalid inpu
 ```
 src/
 ├── index.ts              Entry point — stdio transport, process lifecycle
-├── server.ts             McpServer — all 6 tools registered with Zod schemas
+├── server.ts             McpServer — all 8 tools registered with Zod schemas
 ├── types.ts              Interfaces + typed error classes (SecurityError, CircularDepError…)
 │
 ├── tools/                Thin handlers — validate input, compose modules, format output
-│   ├── add-component.ts
+│   ├── add-component.ts  Installs by name list or group · "did you mean?" on typos
+│   ├── remove-component.ts  Uninstalls by name · path-validated deletion
 │   ├── detect-project.ts
-│   ├── get-component-info.ts
+│   ├── get-component-info.ts  Dep breakdown · install status · "did you mean?" on typos
 │   ├── list-components.ts
 │   ├── list-installed.ts
 │   └── search-components.ts
 │
 ├── registry/
 │   ├── client.ts         HTTPS-only fetch · host whitelist · 5-min in-memory cache · 2× retry
-│   └── resolver.ts       Recursive dep tree · cycle detection (visited set) · depth limit 20
+│   ├── resolver.ts       Recursive dep tree · cycle detection · Levenshtein fuzzy suggestions
+│   └── groups.ts         7 predefined groups (form, layout, navigation, overlay, data, feedback, typography)
 │
 ├── project/
 │   ├── analyzer.ts       Walks up to components.json · framework + pkg manager detection
@@ -281,6 +293,7 @@ src/
 │
 └── writer/
     ├── file-writer.ts    Path-validated writes · dry-run support · directory auto-creation
+    ├── file-remover.ts   Path-validated deletion · returns deleted file list
     ├── css-writer.ts     Idempotent CSS variable merging · skips existing vars
     └── pkg-installer.ts  execFile-based installs · per-package fallback on batch failure
 ```
@@ -304,9 +317,9 @@ npm run test:watch   # Watch mode
 
 ## Roadmap
 
-- [ ] Fuzzy search / "did you mean?" suggestions on typos
-- [ ] `remove_component` tool — clean uninstall with CSS var cleanup
-- [ ] Component category groups — `add all form components` in one call
+- [x] Fuzzy search / "did you mean?" suggestions on typos
+- [x] `remove_component` tool — clean uninstall
+- [x] Component category groups — `add all form components` in one call
 - [ ] Custom registry support (internal design systems)
 - [ ] `.mcpb` bundle for one-click install in supported clients
 
