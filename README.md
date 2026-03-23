@@ -13,16 +13,17 @@
 [![MCP](https://img.shields.io/badge/MCP-stdio-8B5CF6?style=flat-square)](https://modelcontextprotocol.io)
 [![Node](https://img.shields.io/badge/Node.js-18%2B-339933?style=flat-square&logo=node.js&logoColor=white)](package.json)
 
-**Your AI shouldn't need a terminal.**
+### Your AI shouldn't need a terminal.
 
-`shadcn-registry-mcp` gives your AI direct access to the shadcn/ui registry —
-it fetches, installs, and wires up components without a single context switch.
+`shadcn-registry-mcp` is a secure MCP server that gives AI coding assistants (Claude, Cursor, Windsurf, and more) direct access to the shadcn/ui registry — fetching, installing, and wiring up components without a single context switch.
 
 </div>
 
 ---
 
-## How it feels
+## What it does
+
+You talk to your AI. Your AI talks to this server. The server handles everything else.
 
 ```
 You  ──▶  "Add a sidebar with navigation to my project"
@@ -40,6 +41,29 @@ AI  ──▶  ✓ Done. Import from @/components/ui/sidebar.
 ```
 
 No terminal. No broken deps. No copy-paste.
+
+---
+
+## Why this exists
+
+**AI-generated UI tends to be generic.** When your AI guesses at component structure instead of reading from the actual registry, you get inconsistent code that fights your design system.
+
+**Public MCP registries are a security risk.** The MCP ecosystem is actively targeted by supply-chain attacks — malicious servers that disguise themselves as developer tools to exfiltrate SSH keys, tokens, and environment variables.
+
+This server solves both:
+
+- **Accurate installs** — components come directly from the official `ui.shadcn.com` registry, with the exact file structure, dependency tree, and CSS variables shadcn intends. No guessing.
+- **Conversational flow** — ask for a data table, a sidebar, or an entire form kit. The server resolves transitive deps, writes all files, and runs your package manager. You stay in the conversation.
+- **Codebase-safe** — the server reads your `components.json` to understand your exact project layout before writing a single file. It integrates with your structure, not against it.
+- **Security-hardened** — network egress is locked to `ui.shadcn.com` only. Path traversal is blocked. Package installs use `execFile()`, never shell concatenation. Your environment stays yours.
+
+---
+
+## Who is this for
+
+Frontend and full-stack developers who use shadcn/ui and want their AI assistant to actually install components correctly — with full dependency resolution, proper file placement, and zero security compromises.
+
+If you've ever had an AI tell you to "run `npx shadcn@latest add button`" mid-conversation, this is for you.
 
 ---
 
@@ -101,6 +125,8 @@ claude mcp add shadcn -- npx -y shadcn-registry-mcp
 
 ## Tools
 
+Eight tools are exposed to your AI assistant:
+
 | Tool | What it does | Writes |
 |---|---|:---:|
 | `detect_project` | Framework, package manager, component dirs, shadcn config | — |
@@ -121,6 +147,21 @@ add_component({ group: "form" })  // input, textarea, select, checkbox, label, f
 ```
 
 **Groups:** `form` · `layout` · `navigation` · `overlay` · `data` · `feedback` · `typography`
+
+---
+
+## Security
+
+The MCP ecosystem has a supply-chain problem. Malicious servers disguise themselves as developer tools to steal credentials, SSH keys, and environment secrets. This server is built with that threat model in mind:
+
+| Control | What it prevents |
+|---|---|
+| **Network egress locked to `ui.shadcn.com`** | Registry data or tool inputs cannot trigger requests to attacker-controlled domains |
+| **Path traversal prevention** | Registry-supplied paths are validated and resolved against the project root — no `../../.ssh` escapes |
+| **No shell injection** | `execFile()` with a typed args array; package names from the registry cannot inject shell commands |
+| **No stdout pollution** | All logging goes to `stderr`; the stdio JSON-RPC channel is never corrupted |
+| **Minimal filesystem scope** | Reads only `components.json`, `package.json`, and their referenced directories |
+| **Zod input validation** | Every tool input is schema-validated before any code runs |
 
 ---
 
@@ -147,26 +188,13 @@ Point to an internal design system via `components.json`:
 { "registryUrl": "https://registry.company.com/r" }
 ```
 
-Or via env var (great for CI):
+Or via env var (useful in CI):
 
 ```json
 { "env": { "SHADCN_REGISTRY_URL": "https://registry.company.com/r" } }
 ```
 
-Custom registry is checked first; the official shadcn registry is the fallback — standard components keep working alongside your internal ones.
-
----
-
-## Security
-
-The MCP ecosystem has a supply-chain problem. This server is built with that threat model in mind:
-
-- **Network egress locked** — only `https://ui.shadcn.com` is permitted. Any other domain raises a `SecurityError` immediately.
-- **Path traversal prevention** — every registry-supplied path is validated and resolved against the project root before any write.
-- **No shell injection** — package installs use `execFile()` with a typed args array, never string concatenation.
-- **No stdout pollution** — all logging goes to `stderr`. The stdio JSON-RPC channel stays clean.
-- **Minimal filesystem scope** — reads only `components.json`, `package.json`, and their referenced directories. Never touches `.env` or your home dir.
-- **Zod input validation** — every tool input is schema-validated before any code runs.
+Custom registry is checked first; the official shadcn registry is the fallback — internal and standard components work side by side.
 
 ---
 
@@ -223,7 +251,7 @@ npm install
 
 npm run dev          # Run with tsx — no build step needed
 npm run build        # Compile TypeScript → dist/
-npm test             # Run 42 tests with vitest (unit + E2E)
+npm test             # Run 42 tests (unit + E2E)
 npm run test:watch   # Watch mode
 npm run pack:bundle  # Build + create shadcn-registry-mcp.mcpb bundle
 ```
@@ -243,7 +271,7 @@ npm run pack:bundle  # Build + create shadcn-registry-mcp.mcpb bundle
 ## Contributing
 
 Fork → branch → tests → PR. Both `npm test` and `npm run build` must pass.
-Security properties (network egress, path validation, shell safety) must be preserved — new exceptions require explicit justification in the PR.
+Security properties (network egress, path validation, shell safety) must be preserved — new exceptions require explicit justification in the PR description.
 
 ---
 
