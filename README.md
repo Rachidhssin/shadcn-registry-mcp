@@ -1,5 +1,6 @@
 <div align="center">
-  <img src="assets/logo.svg" alt="shadcn-registry-mcp" width="680" />
+  <img src="assets/logo.svg" alt="shadcn-registry-mcp" width="160" />
+  <h1>shadcn-registry-mcp</h1>
 </div>
 
 <br/>
