@@ -258,24 +258,24 @@ npm run pack:bundle  # Build + create shadcn-registry-mcp.mcpb bundle
 
 ---
 
-## Roadmap
-
-- [x] Fuzzy "did you mean?" suggestions on typos
-- [x] `remove_component` — clean uninstall
-- [x] Component groups — install an entire category in one call
-- [x] Custom registry support for internal design systems
-- [x] `.mcpb` bundle for one-click install
-
----
-
 ## Contributing
 
-Fork → branch → tests → PR. Both `npm test` and `npm run build` must pass.
-Security properties (network egress, path validation, shell safety) must be preserved — new exceptions require explicit justification in the PR description.
+Contributions are welcome and appreciated. Here's how to get involved:
+
+1. **Star the repo** — if this saves you time, a star helps others find it and keeps the project going.
+2. **Report issues** — found a bug or a component that doesn't install correctly? [Open an issue](https://github.com/Rachidhssin/shadcn-registry-mcp/issues).
+3. **Submit a PR** — fork → branch → write tests → open a PR. Both `npm test` and `npm run build` must pass cleanly.
+4. **Suggest features** — have an idea for a new tool or integration? Start a discussion in the issues tab.
+
+> **Security note:** All security properties (network egress locking, path validation, shell safety) must be preserved in every PR. New network destinations, filesystem paths, or shell invocations require explicit justification in the PR description.
 
 ---
 
 <div align="center">
+
+If this project helped you, consider giving it a ⭐ — it means a lot.
+
+<br/>
 
 MIT &nbsp;·&nbsp; Built with the [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk) &nbsp;·&nbsp; Powered by the [shadcn/ui registry](https://ui.shadcn.com)
 
