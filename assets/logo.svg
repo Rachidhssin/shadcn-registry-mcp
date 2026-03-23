@@ -1,97 +1,96 @@
 <svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="400" y2="400" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#0F0F13"/>
+      <stop offset="0%" stop-color="#131318"/>
       <stop offset="100%" stop-color="#09090B"/>
     </linearGradient>
-    <linearGradient id="ring" x1="164" y1="164" x2="236" y2="236" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#C4B5FD"/>
+    <linearGradient id="ringGrad" x1="130" y1="130" x2="270" y2="270" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E4DCFF"/>
+      <stop offset="50%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#4C1D95"/>
+    </linearGradient>
+    <linearGradient id="coreGrad" x1="170" y1="170" x2="230" y2="230" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#A78BFA"/>
       <stop offset="100%" stop-color="#6D28D9"/>
     </linearGradient>
-    <linearGradient id="accentCard" x1="0" y1="0" x2="0" y2="80" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#1A1232"/>
-      <stop offset="100%" stop-color="#0F0A20"/>
-    </linearGradient>
-    <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.3"/>
-      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/>
+    <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#4C1D95" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#4C1D95" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#3B1FA8" stop-opacity="0.12"/>
-      <stop offset="100%" stop-color="#3B1FA8" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="softglow" x="-50%" y="-50%" width="200%" height="200%">
+    <filter id="bloom" x="-60%" y="-60%" width="220%" height="220%">
       <feGaussianBlur stdDeviation="10" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <filter id="coreBloom" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="rounded">
+      <rect width="400" height="400" rx="88"/>
+    </clipPath>
   </defs>
 
   <!-- Background -->
-  <rect width="400" height="400" rx="80" fill="url(#bg)"/>
-  <rect width="400" height="400" rx="80" fill="url(#bgGlow)"/>
-  <rect width="400" height="400" rx="80" fill="none" stroke="#1C1C22" stroke-width="1.5"/>
+  <rect width="400" height="400" rx="88" fill="url(#bg)"/>
 
-  <!-- Ambient hub glow -->
-  <ellipse cx="200" cy="200" rx="110" ry="110" fill="url(#hubGlow)"/>
+  <!-- Subtle grid texture -->
+  <g clip-path="url(#rounded)" opacity="0.06">
+    <line x1="100" y1="0" x2="100" y2="400" stroke="#8B5CF6" stroke-width="0.5"/>
+    <line x1="200" y1="0" x2="200" y2="400" stroke="#8B5CF6" stroke-width="0.5"/>
+    <line x1="300" y1="0" x2="300" y2="400" stroke="#8B5CF6" stroke-width="0.5"/>
+    <line x1="0" y1="100" x2="400" y2="100" stroke="#8B5CF6" stroke-width="0.5"/>
+    <line x1="0" y1="200" x2="400" y2="200" stroke="#8B5CF6" stroke-width="0.5"/>
+    <line x1="0" y1="300" x2="400" y2="300" stroke="#8B5CF6" stroke-width="0.5"/>
+  </g>
 
-  <!-- ── CONNECTION LINES ── -->
-  <!-- Top -->
-  <line x1="200" y1="162" x2="200" y2="118" stroke="#252528" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3"/>
-  <!-- Bottom -->
-  <line x1="200" y1="238" x2="200" y2="282" stroke="#252528" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3"/>
-  <!-- Left -->
-  <line x1="162" y1="200" x2="118" y2="200" stroke="#252528" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3"/>
-  <!-- Right -->
-  <line x1="238" y1="200" x2="282" y2="200" stroke="#252528" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+  <!-- Outer border -->
+  <rect width="400" height="400" rx="88" fill="none" stroke="#1E1E26" stroke-width="1.5"/>
 
-  <!-- ── COMPONENT CARDS ── -->
+  <!-- ── COMPONENT CARDS (3 stacked, offset) ── -->
 
-  <!-- TOP card -->
-  <rect x="162" y="72" width="76" height="46" rx="10" fill="#111115" stroke="#252528" stroke-width="1.2"/>
-  <rect x="174" y="84" width="30" height="4.5" rx="2.2" fill="#3F3F46"/>
-  <rect x="174" y="93" width="50" height="3.5" rx="1.8" fill="#27272A"/>
-  <rect x="174" y="100" width="38" height="3.5" rx="1.8" fill="#27272A"/>
-  <circle cx="200" cy="118" r="4" fill="#8B5CF6" opacity="0.75"/>
+  <!-- Card 3 (back) -->
+  <rect x="82" y="108" width="192" height="136" rx="16" fill="#0F0F14" stroke="#1E1E26" stroke-width="1.2" transform="rotate(-6 178 176)"/>
 
-  <!-- LEFT card -->
-  <rect x="72" y="174" width="46" height="52" rx="10" fill="#111115" stroke="#252528" stroke-width="1.2"/>
-  <rect x="82" y="185" width="26" height="4.5" rx="2.2" fill="#3F3F46"/>
-  <rect x="82" y="194" width="34" height="3.5" rx="1.8" fill="#27272A"/>
-  <rect x="82" y="201" width="24" height="3.5" rx="1.8" fill="#27272A"/>
-  <rect x="82" y="208" width="30" height="3.5" rx="1.8" fill="#27272A"/>
-  <circle cx="118" cy="200" r="4" fill="#8B5CF6" opacity="0.75"/>
+  <!-- Card 2 (middle) -->
+  <rect x="82" y="108" width="192" height="136" rx="16" fill="#111118" stroke="#252530" stroke-width="1.2" transform="rotate(-2 178 176)"/>
 
-  <!-- RIGHT card -->
-  <rect x="282" y="174" width="46" height="52" rx="10" fill="#111115" stroke="#252528" stroke-width="1.2"/>
-  <rect x="292" y="185" width="26" height="4.5" rx="2.2" fill="#3F3F46"/>
-  <rect x="292" y="194" width="34" height="3.5" rx="1.8" fill="#27272A"/>
-  <rect x="292" y="201" width="24" height="3.5" rx="1.8" fill="#27272A"/>
-  <rect x="292" y="208" width="30" height="3.5" rx="1.8" fill="#27272A"/>
-  <circle cx="282" cy="200" r="4" fill="#8B5CF6" opacity="0.75"/>
+  <!-- Card 1 (front) -->
+  <rect x="82" y="108" width="192" height="136" rx="16" fill="#16161E" stroke="#2E2E3E" stroke-width="1.5"/>
+  <!-- Card header bar -->
+  <rect x="82" y="108" width="192" height="36" rx="16" fill="#1A1A26"/>
+  <rect x="82" y="128" width="192" height="16" fill="#1A1A26"/>
+  <!-- Traffic lights -->
+  <circle cx="106" cy="126" r="5.5" fill="#FF5F57" opacity="0.7"/>
+  <circle cx="122" cy="126" r="5.5" fill="#FEBC2E" opacity="0.7"/>
+  <circle cx="138" cy="126" r="5.5" fill="#28C840" opacity="0.7"/>
+  <!-- Card content lines -->
+  <rect x="100" y="158" width="80" height="7" rx="3.5" fill="#8B5CF6" opacity="0.6"/>
+  <rect x="100" y="172" width="154" height="5" rx="2.5" fill="#2E2E3E"/>
+  <rect x="100" y="183" width="120" height="5" rx="2.5" fill="#2E2E3E"/>
+  <rect x="100" y="194" width="140" height="5" rx="2.5" fill="#2E2E3E"/>
+  <rect x="100" y="208" width="96" height="5" rx="2.5" fill="#2E2E3E"/>
+  <!-- Card violet accent strip left -->
+  <rect x="82" y="124" width="3.5" height="108" rx="2" fill="#8B5CF6" opacity="0.5"/>
 
-  <!-- BOTTOM card — violet MCP accent -->
-  <rect x="162" y="282" width="76" height="46" rx="10" fill="url(#accentCard)" stroke="#5B21B6" stroke-width="1.3"/>
-  <rect x="174" y="293" width="28" height="13" rx="4" fill="#2D1B69"/>
-  <text x="179" y="303.5" font-family="ui-monospace, 'Courier New', monospace" font-size="8" fill="#A78BFA" font-weight="700" letter-spacing="0.8">MCP</text>
-  <rect x="174" y="311" width="50" height="3.5" rx="1.8" fill="#2D1B69" opacity="0.8"/>
-  <rect x="174" y="318" width="36" height="3.5" rx="1.8" fill="#2D1B69" opacity="0.8"/>
-  <circle cx="200" cy="282" r="4" fill="#8B5CF6" opacity="0.75"/>
+  <!-- ── MCP BADGE (bottom-right) ── -->
+  <rect x="202" y="212" width="118" height="52" rx="14" fill="#0D0920" stroke="#5B21B6" stroke-width="1.5"/>
+  <!-- Badge glow -->
+  <rect x="202" y="212" width="118" height="52" rx="14" fill="#8B5CF6" opacity="0.04"/>
+  <text x="220" y="232" font-family="ui-monospace, 'Courier New', monospace" font-size="9" fill="#6D28D9" letter-spacing="2" font-weight="600">PROTOCOL</text>
+  <text x="220" y="252" font-family="ui-monospace, 'Courier New', monospace" font-size="18" fill="#A78BFA" font-weight="800" letter-spacing="1">MCP</text>
 
-  <!-- ── CENTRAL HUB ── -->
-  <!-- Outer ring plate -->
-  <circle cx="200" cy="200" r="44" fill="#0E0E12" stroke="#222228" stroke-width="1.5"/>
-  <!-- Gradient ring -->
-  <circle cx="200" cy="200" r="32" fill="none" stroke="url(#ring)" stroke-width="2.5" filter="url(#glow)"/>
-  <!-- Inner tick marks -->
-  <line x1="200" y1="171" x2="200" y2="176" stroke="#4C1D95" stroke-width="1.5" stroke-linecap="round"/>
-  <line x1="200" y1="224" x2="200" y2="229" stroke="#4C1D95" stroke-width="1.5" stroke-linecap="round"/>
-  <line x1="171" y1="200" x2="176" y2="200" stroke="#4C1D95" stroke-width="1.5" stroke-linecap="round"/>
-  <line x1="224" y1="200" x2="229" y2="200" stroke="#4C1D95" stroke-width="1.5" stroke-linecap="round"/>
-  <!-- Core dot -->
-  <circle cx="200" cy="200" r="10" fill="#7C3AED" filter="url(#softglow)" opacity="0.95"/>
-  <circle cx="200" cy="200" r="5" fill="#DDD6FE"/>
+  <!-- ── CONNECTION NODE (glowing dot bottom-left) ── -->
+  <circle cx="116" cy="276" r="28" fill="#0D0920"/>
+  <circle cx="116" cy="276" r="28" fill="none" stroke="#3B1FA8" stroke-width="1.5"/>
+  <circle cx="116" cy="276" r="18" fill="none" stroke="#6D28D9" stroke-width="1" opacity="0.5"/>
+  <circle cx="116" cy="276" r="9" fill="url(#coreGrad)" filter="url(#coreBloom)" opacity="0.9"/>
+  <circle cx="116" cy="276" r="4" fill="#E4DCFF"/>
+
+  <!-- Connection line from node to card -->
+  <line x1="116" y1="248" x2="116" y2="244" stroke="#3B1FA8" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="140" y1="276" x2="202" y2="238" stroke="#3B1FA8" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="4 3"/>
+
+  <!-- ── AURA behind everything ── -->
+  <ellipse cx="200" cy="200" rx="180" ry="180" fill="url(#aura)" opacity="0.4"/>
 </svg>
