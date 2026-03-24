@@ -51,46 +51,45 @@
   <line x1="16" y1="151" x2="584" y2="151"
         stroke="#FFFFFF" stroke-opacity="0.07" stroke-width="1"/>
 
-  <!-- ── Step 1 ── -->
-  <circle cx="38" cy="176" r="11" fill="#6366F1" fill-opacity="0.18"/>
-  <text x="38" y="180" text-anchor="middle"
+  <!-- ── Step 1 ── cy=172 -->
+  <circle cx="38" cy="172" r="11" fill="#6366F1" fill-opacity="0.18"/>
+  <text x="38" y="176" text-anchor="middle"
         font-family="ui-monospace,monospace" font-size="10" font-weight="700" fill="#818CF8">1</text>
-  <text x="60" y="180"
+  <text x="60" y="176"
         font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
         font-size="13" fill="#E2E8F0">Detects your project</text>
-  <text x="60" y="196"
-        font-family="ui-monospace,'Cascadia Code',monospace"
-        font-size="11" fill="#4B5E8A">Next.js · App Router · pnpm</text>
+  <text x="216" y="176"
+        font-family="ui-monospace,monospace" font-size="11" fill="#4B5E8A">  ·  Next.js · App Router · pnpm</text>
 
-  <!-- ── Step 2 ── -->
-  <circle cx="38" cy="218" r="11" fill="#6366F1" fill-opacity="0.18"/>
-  <text x="38" y="222" text-anchor="middle"
+  <!-- ── Step 2 ── cy=206 -->
+  <circle cx="38" cy="206" r="11" fill="#6366F1" fill-opacity="0.18"/>
+  <text x="38" y="210" text-anchor="middle"
         font-family="ui-monospace,monospace" font-size="10" font-weight="700" fill="#818CF8">2</text>
-  <text x="60" y="222"
+  <text x="60" y="210"
         font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
         font-size="13" fill="#E2E8F0">Fetches sidebar from registry</text>
-  <text x="254" y="222"
-        font-family="ui-monospace,monospace" font-size="12" fill="#4B5E8A">  ·  ui.shadcn.com/r/</text>
+  <text x="254" y="210"
+        font-family="ui-monospace,monospace" font-size="11" fill="#4B5E8A">  ·  ui.shadcn.com/r/</text>
 
-  <!-- ── Step 3 ── -->
-  <circle cx="38" cy="248" r="11" fill="#6366F1" fill-opacity="0.18"/>
-  <text x="38" y="252" text-anchor="middle"
+  <!-- ── Step 3 ── cy=240 -->
+  <circle cx="38" cy="240" r="11" fill="#6366F1" fill-opacity="0.18"/>
+  <text x="38" y="244" text-anchor="middle"
         font-family="ui-monospace,monospace" font-size="10" font-weight="700" fill="#818CF8">3</text>
-  <text x="60" y="252"
+  <text x="60" y="244"
         font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
         font-size="13" fill="#E2E8F0">Resolves <tspan fill="#A5B4FC" font-weight="600">7</tspan> registry dependencies</text>
 
-  <!-- ── Step 4 ── -->
-  <circle cx="38" cy="278" r="11" fill="#6366F1" fill-opacity="0.18"/>
-  <text x="38" y="282" text-anchor="middle"
+  <!-- ── Step 4 ── cy=274 -->
+  <circle cx="38" cy="274" r="11" fill="#6366F1" fill-opacity="0.18"/>
+  <text x="38" y="278" text-anchor="middle"
         font-family="ui-monospace,monospace" font-size="10" font-weight="700" fill="#818CF8">4</text>
-  <text x="60" y="282"
+  <text x="60" y="278"
         font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
         font-size="13" fill="#E2E8F0">Writes <tspan fill="#A5B4FC" font-weight="600">8</tspan> files</text>
-  <text x="137" y="282"
-        font-family="ui-monospace,monospace" font-size="12" fill="#4B5E8A">  →  src/components/ui/</text>
+  <text x="137" y="278"
+        font-family="ui-monospace,monospace" font-size="11" fill="#4B5E8A">  →  src/components/ui/</text>
 
-  <!-- ── Step 5 ── -->
+  <!-- ── Step 5 ── cy=308 -->
   <circle cx="38" cy="308" r="11" fill="#6366F1" fill-opacity="0.18"/>
   <text x="38" y="312" text-anchor="middle"
         font-family="ui-monospace,monospace" font-size="10" font-weight="700" fill="#818CF8">5</text>
@@ -98,16 +97,16 @@
         font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
         font-size="13" fill="#E2E8F0">Merges <tspan fill="#A5B4FC" font-weight="600">12</tspan> CSS variables</text>
   <text x="200" y="312"
-        font-family="ui-monospace,monospace" font-size="12" fill="#4B5E8A">  →  globals.css</text>
+        font-family="ui-monospace,monospace" font-size="11" fill="#4B5E8A">  →  globals.css</text>
 
-  <!-- ── Step 6 ── -->
-  <circle cx="38" cy="338" r="11" fill="#6366F1" fill-opacity="0.18"/>
-  <text x="38" y="342" text-anchor="middle"
+  <!-- ── Step 6 ── cy=342 -->
+  <circle cx="38" cy="342" r="11" fill="#6366F1" fill-opacity="0.18"/>
+  <text x="38" y="346" text-anchor="middle"
         font-family="ui-monospace,monospace" font-size="10" font-weight="700" fill="#818CF8">6</text>
-  <text x="60" y="342"
+  <text x="60" y="346"
         font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
-        font-size="13" fill="#E2E8F0">Runs</text>
-  <text x="94" y="342"
+        font-size="13" fill="#E2E8F0">Runs </text>
+  <text x="95" y="346"
         font-family="ui-monospace,'Cascadia Code',Menlo,monospace"
         font-size="12" fill="#A5B4FC">pnpm add @radix-ui/react-slot ...</text>
 
