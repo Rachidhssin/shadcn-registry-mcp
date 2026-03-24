@@ -6,6 +6,12 @@
 <br/>
 
 <div align="center">
+  <video src="https://github.com/user-attachments/assets/b2503cec-b7f4-425e-8c5c-db7a968d747f" width="700" controls autoplay loop muted></video>
+</div>
+
+<br/>
+
+<div align="center">
 
 [![npm](https://img.shields.io/badge/npm-shadcn--registry--mcp-CB3837?style=flat-square&logo=npm&logoColor=white)](https://www.npmjs.com/package/shadcn-registry-mcp)
 [![license](https://img.shields.io/github/license/Rachidhssin/shadcn-registry-mcp?style=flat-square&color=brightgreen)](LICENSE)
