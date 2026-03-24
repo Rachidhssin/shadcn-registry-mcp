@@ -2,7 +2,7 @@
   "dxt_version": "0.1",
   "name": "shadcn-registry-mcp",
   "display_name": "shadcn Registry MCP",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Install and manage shadcn/ui components via AI agents — no terminal required",
   "long_description": "shadcn-registry-mcp gives your AI direct access to the official shadcn/ui component registry. It installs components, resolves the full dependency tree, writes files, merges CSS variables, and runs your package manager — all from a conversation. Supports Next.js App Router, Next.js Pages Router, Vite, and any shadcn-initialized project. Security-hardened: network egress locked to ui.shadcn.com, path traversal prevention, no shell injection.",
   "author": {

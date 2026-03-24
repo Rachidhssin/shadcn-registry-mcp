@@ -59,29 +59,38 @@ If you've ever had an AI tell you to "run `npx shadcn@latest add button`" mid-co
 
 ## Quick Start
 
-**Step 1 — Initialize shadcn** *(skip if already done)*
+### Prerequisites
 
-```bash
-npx shadcn@latest init
-```
+- **Node.js 18+** · check with `node --version`
+- **A shadcn/ui project** · run `npx shadcn@latest init` if not already set up
 
-**Step 2 — Add the MCP server**
+---
 
-> **One-click:** Download `shadcn-registry-mcp.mcpb` from the [releases page](https://github.com/Rachidhssin/shadcn-registry-mcp/releases) and open it, no terminal needed.
+### Step 1 — Add to your AI client
 
 <details>
 <summary>🖥️ &nbsp;<strong>Claude Desktop</strong></summary>
 <br/>
 
-`~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) · `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+Open your config file:
+
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+Add the `shadcn` entry under `mcpServers`:
 
 ```json
 {
   "mcpServers": {
-    "shadcn": { "command": "npx", "args": ["-y", "shadcn-registry-mcp"] }
+    "shadcn": {
+      "command": "npx",
+      "args": ["-y", "shadcn-registry-mcp"]
+    }
   }
 }
 ```
+
+**Quit and relaunch** Claude Desktop after saving.
 
 </details>
 
@@ -89,27 +98,105 @@ npx shadcn@latest init
 <summary>💻 &nbsp;<strong>Claude Code</strong></summary>
 <br/>
 
+**For the current project only:**
 ```bash
 claude mcp add shadcn -- npx -y shadcn-registry-mcp
 ```
 
+**For all projects (recommended):**
+```bash
+claude mcp add shadcn --scope global -- npx -y shadcn-registry-mcp
+```
+
+Confirm it connected:
+```bash
+claude mcp list
+# shadcn   npx -y shadcn-registry-mcp   connected ✓
+```
+
+> If the status shows `failed`, npx may have a stale cache. Fix: `claude mcp remove shadcn` then re-add with `npx -y shadcn-registry-mcp@latest`.
+
 </details>
 
 <details>
-<summary>🖱️ &nbsp;<strong>Cursor / Windsurf / other MCP clients</strong></summary>
+<summary>🖱️ &nbsp;<strong>Cursor</strong></summary>
 <br/>
+
+Edit `.cursor/mcp.json` in your project root (create it if it doesn't exist):
 
 ```json
 {
   "mcpServers": {
-    "shadcn": { "command": "npx", "args": ["-y", "shadcn-registry-mcp"] }
+    "shadcn": {
+      "command": "npx",
+      "args": ["-y", "shadcn-registry-mcp"]
+    }
   }
 }
 ```
 
+Restart Cursor after saving.
+
 </details>
 
-**Step 3 — Restart your client and ask for a component.**
+<details>
+<summary>🌊 &nbsp;<strong>Windsurf</strong></summary>
+<br/>
+
+Edit `~/.codeium/windsurf/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["-y", "shadcn-registry-mcp"]
+    }
+  }
+}
+```
+
+Restart Windsurf after saving.
+
+</details>
+
+<details>
+<summary>📦 &nbsp;<strong>One-click install (.mcpb)</strong></summary>
+<br/>
+
+Download `shadcn-registry-mcp.mcpb` from the [latest release](https://github.com/Rachidhssin/shadcn-registry-mcp/releases/latest) and open it — no terminal, no config editing. Works with any client that supports the `.mcpb` format.
+
+</details>
+
+---
+
+### Step 2 — Verify it's working
+
+Ask your AI:
+
+> *"List my installed shadcn components"*
+
+The MCP server will respond directly. If the AI runs `npx shadcn@latest` in a terminal instead, the server isn't connected — see Troubleshooting below.
+
+---
+
+### Troubleshooting
+
+**`failed to connect` in `claude mcp list`**
+npx cached a "not found" result from before the package was installed. Fix:
+```bash
+claude mcp remove shadcn
+claude mcp add shadcn --scope global -- npx -y shadcn-registry-mcp@latest
+```
+
+**`components.json not found`**
+The server needs a shadcn-initialized project. Run `npx shadcn@latest init` in your project root first.
+
+**AI uses the terminal instead of the MCP**
+Be explicit: *"Use the `add_component` tool to install [name]"*. Some agents default to the CLI if the prompt is ambiguous.
+
+**Server disappears after restarting Claude Code**
+You added it at project scope. Re-add with `--scope global` to make it persistent.
 
 ---
 
