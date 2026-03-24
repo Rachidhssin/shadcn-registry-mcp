@@ -26,20 +26,9 @@
 
 You talk to your AI. Your AI talks to this server. The server handles everything else.
 
-```
-You  ──▶  "Add a sidebar with navigation to my project"
-
-         ┌────────────────────────────────────────────────────┐
-         │  1. Detects your project (Next.js App Router, pnpm)│
-         │  2. Fetches sidebar from ui.shadcn.com/r/          │
-         │  3. Resolves 7 registry dependencies               │
-         │  4. Writes 8 files to src/components/ui/           │
-         │  5. Merges 12 CSS variables → globals.css          │
-         │  6. Runs pnpm add @radix-ui/react-slot ...         │
-         └────────────────────────────────────────────────────┘
-
-AI  ──▶  ✓ Done. Import from @/components/ui/sidebar.
-```
+<div align="center">
+  <img src="assets/diagram.svg" alt="How shadcn-registry-mcp works" width="600"/>
+</div>
 
 No terminal. No broken deps. No copy-paste.
 
