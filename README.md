@@ -16,7 +16,7 @@
 
 ### Your AI shouldn't need a terminal.
 
-`shadcn-registry-mcp` is a secure MCP server that gives AI coding assistants (Claude, Cursor, Windsurf, and more) direct access to the shadcn/ui registry — fetching, installing, and wiring up components without a single context switch.
+`shadcn-registry-mcp` is a secure MCP server that gives AI coding assistants (Claude, Cursor, Windsurf, and more) direct access to the shadcn/ui registry,  fetching, installing, and wiring up components without a single context switch.
 
 </div>
 
@@ -38,7 +38,7 @@ No terminal. No broken deps. No copy-paste.
 
 **AI-generated UI tends to be generic.** When your AI guesses at component structure instead of reading from the actual registry, you get inconsistent code that fights your design system.
 
-**Public MCP registries are a security risk.** The MCP ecosystem is actively targeted by supply-chain attacks — malicious servers that disguise themselves as developer tools to exfiltrate SSH keys, tokens, and environment variables.
+**Public MCP registries are a security risk.** The MCP ecosystem is actively targeted by supply-chain attacks, malicious servers that disguise themselves as developer tools to exfiltrate SSH keys, tokens, and environment variables.
 
 This server solves both:
 
@@ -51,7 +51,7 @@ This server solves both:
 
 ## Who is this for
 
-Frontend and full-stack developers who use shadcn/ui and want their AI assistant to actually install components correctly — with full dependency resolution, proper file placement, and zero security compromises.
+Frontend and full-stack developers who use shadcn/ui and want their AI assistant to actually install components correctly, with full dependency resolution, proper file placement, and zero security compromises.
 
 If you've ever had an AI tell you to "run `npx shadcn@latest add button`" mid-conversation, this is for you.
 
@@ -67,7 +67,7 @@ npx shadcn@latest init
 
 **Step 2 — Add the MCP server**
 
-> **One-click:** Download `shadcn-registry-mcp.mcpb` from the [releases page](https://github.com/Rachidhssin/shadcn-registry-mcp/releases) and open it — no terminal needed.
+> **One-click:** Download `shadcn-registry-mcp.mcpb` from the [releases page](https://github.com/Rachidhssin/shadcn-registry-mcp/releases) and open it, no terminal needed.
 
 <details>
 <summary>🖥️ &nbsp;<strong>Claude Desktop</strong></summary>
@@ -147,7 +147,7 @@ The MCP ecosystem has a supply-chain problem. Malicious servers disguise themsel
 | Control | What it prevents |
 |---|---|
 | **Network egress locked to `ui.shadcn.com`** | Registry data or tool inputs cannot trigger requests to attacker-controlled domains |
-| **Path traversal prevention** | Registry-supplied paths are validated and resolved against the project root — no `../../.ssh` escapes |
+| **Path traversal prevention** | Registry-supplied paths are validated and resolved against the project root, no `../../.ssh` escapes |
 | **No shell injection** | `execFile()` with a typed args array; package names from the registry cannot inject shell commands |
 | **No stdout pollution** | All logging goes to `stderr`; the stdio JSON-RPC channel is never corrupted |
 | **Minimal filesystem scope** | Reads only `components.json`, `package.json`, and their referenced directories |
@@ -184,7 +184,7 @@ Or via env var (useful in CI):
 { "env": { "SHADCN_REGISTRY_URL": "https://registry.company.com/r" } }
 ```
 
-Custom registry is checked first; the official shadcn registry is the fallback — internal and standard components work side by side.
+Custom registry is checked first; the official shadcn registry is the fallback, internal and standard components work side by side.
 
 ---
 
@@ -263,7 +263,7 @@ Contributions are welcome and appreciated. Here's how to get involved:
 
 <div align="center">
 
-If this project helped you, consider giving it a ⭐ — it means a lot.
+If this project helped you, consider giving it a ⭐ it means a lot.
 
 <br/>
 
