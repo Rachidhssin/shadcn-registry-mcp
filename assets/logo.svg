@@ -1,39 +1,36 @@
 <svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
 
-    <!-- Background: near-black with a cool blue-black tint at top-left -->
-    <linearGradient id="bgGrad" x1="0" y1="0" x2="400" y2="400" gradientUnits="userSpaceOnUse">
-      <stop offset="0%"   stop-color="#111122"/>
+    <!-- Background: near-black, subtle cool tint -->
+    <linearGradient id="bg" x1="0" y1="0" x2="400" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#0E0E1C"/>
       <stop offset="100%" stop-color="#09090B"/>
     </linearGradient>
 
-    <!-- Card surface: deep cool-dark to near-black -->
-    <linearGradient id="cardGrad" x1="78" y1="148" x2="78" y2="326" gradientUnits="userSpaceOnUse">
-      <stop offset="0%"   stop-color="#1C1B30"/>
-      <stop offset="100%" stop-color="#0F0F1A"/>
-    </linearGradient>
-
-    <!-- Card header: slightly lighter -->
-    <linearGradient id="hdrGrad" x1="78" y1="148" x2="78" y2="194" gradientUnits="userSpaceOnUse">
-      <stop offset="0%"   stop-color="#23213E"/>
-      <stop offset="100%" stop-color="#1A192C"/>
-    </linearGradient>
-
-    <!-- Badge: bright indigo gradient (replaces muddy violet) -->
-    <linearGradient id="badgeGrad" x1="276" y1="72" x2="340" y2="136" gradientUnits="userSpaceOnUse">
-      <stop offset="0%"   stop-color="#A5B4FC"/>
-      <stop offset="100%" stop-color="#4338CA"/>
-    </linearGradient>
-
-    <!-- Badge ambient aura (radial) -->
-    <radialGradient id="badgeAura" cx="308" cy="104" r="68" gradientUnits="userSpaceOnUse">
-      <stop offset="0%"   stop-color="#6366F1" stop-opacity="0.38"/>
-      <stop offset="55%"  stop-color="#6366F1" stop-opacity="0.07"/>
-      <stop offset="100%" stop-color="#6366F1" stop-opacity="0"/>
+    <!-- Selected cell fill: deep indigo -->
+    <radialGradient id="selFill" cx="273" cy="273" r="90" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#211D54"/>
+      <stop offset="100%" stop-color="#141232"/>
     </radialGradient>
 
-    <!-- Glow filter: badge inner glow -->
-    <filter id="glow" x="-55%" y="-55%" width="210%" height="210%">
+    <!-- Selected cell outer aura (bleeds past cell edges) -->
+    <radialGradient id="selAura" cx="273" cy="273" r="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#4F46E5" stop-opacity="0.50"/>
+      <stop offset="55%"  stop-color="#4F46E5" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#4F46E5" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Glow filter: sparkle -->
+    <filter id="sparkGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Glow filter: cell border -->
+    <filter id="borderGlow" x="-25%" y="-25%" width="150%" height="150%">
       <feGaussianBlur stdDeviation="7" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
@@ -41,125 +38,114 @@
       </feMerge>
     </filter>
 
-    <!-- Strong glow filter: soft halo layer -->
-    <filter id="halo" x="-90%" y="-90%" width="280%" height="280%">
-      <feGaussianBlur stdDeviation="18" result="blur"/>
+    <!-- Halo filter: wide soft aura -->
+    <filter id="haloBlur" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur stdDeviation="22" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
 
-    <!-- Clip path for icon shape -->
-    <clipPath id="iconShape">
+    <!-- Clip to icon shape -->
+    <clipPath id="iconClip">
       <rect width="400" height="400" rx="88"/>
     </clipPath>
 
   </defs>
 
   <!-- ▓▓▓ BACKGROUND ▓▓▓ -->
-  <rect width="400" height="400" rx="88" fill="url(#bgGrad)"/>
-
-  <!-- Outer icon border (very subtle) -->
+  <rect width="400" height="400" rx="88" fill="url(#bg)"/>
   <rect width="400" height="400" rx="88" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.06"/>
 
-  <!-- Very faint ambient light behind main card area -->
-  <ellipse cx="186" cy="240" rx="128" ry="104" fill="#6366F1" fill-opacity="0.04"/>
+
+  <!-- ▓▓▓ 2×2 COMPONENT GRID ▓▓▓
+       Cell size: 126×126  Gap: 20px
+       Grid: starts at (64,64), ends at (336,336) — centered in 400px  -->
 
 
-  <!-- ▓▓▓ COMPONENT CARD ▓▓▓ -->
+  <!-- ══ TOP-LEFT CELL: "Card" component ══ -->
+  <rect x="64" y="64" width="126" height="126" rx="18" fill="#111118"/>
+  <rect x="64" y="64" width="126" height="126" rx="18" fill="none"
+        stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.11"/>
 
-  <!-- Drop shadow -->
-  <rect x="78" y="148" width="214" height="178" rx="14" fill="#000000" fill-opacity="0.45"
-        transform="translate(3,8)"/>
-
-  <!-- Card surface -->
-  <rect x="78" y="148" width="214" height="178" rx="14" fill="url(#cardGrad)"/>
-
-  <!-- Card border — KEY: crisp white at low opacity for clean contrast -->
-  <rect x="78" y="148" width="214" height="178" rx="14" fill="none"
-        stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.12"/>
-
-  <!-- Top edge specular highlight -->
-  <rect x="94" y="148" width="108" height="1.5" rx="0.75" fill="#FFFFFF" fill-opacity="0.18"/>
-
-
-  <!-- ── Header ── -->
-  <rect x="78" y="148" width="214" height="46" rx="14" fill="url(#hdrGrad)"/>
-  <!-- Fill in the corner gap between header and card body -->
-  <rect x="78" y="172" width="214" height="22" fill="url(#hdrGrad)"/>
-
-  <!-- Header divider -->
-  <line x1="78" y1="194" x2="292" y2="194" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="1"/>
-
-  <!-- macOS traffic lights -->
-  <circle cx="102" cy="171" r="6.5" fill="#FF5F57"/>
-  <circle cx="121" cy="171" r="6.5" fill="#FEBC2E"/>
-  <circle cx="140" cy="171" r="6.5" fill="#28C840"/>
-
-  <!-- Header title placeholder bar -->
-  <rect x="160" y="166" width="86" height="10" rx="5" fill="#FFFFFF" fill-opacity="0.08"/>
+  <!-- Mini card header -->
+  <rect x="64" y="64" width="126" height="36" rx="18" fill="#FFFFFF" fill-opacity="0.04"/>
+  <rect x="64" y="88"  width="126" height="12" fill="#FFFFFF" fill-opacity="0.04"/>
+  <!-- Traffic-light dots -->
+  <circle cx="82"  cy="82" r="5" fill="#FF5F57" opacity="0.75"/>
+  <circle cx="96"  cy="82" r="5" fill="#FEBC2E" opacity="0.75"/>
+  <circle cx="110" cy="82" r="5" fill="#28C840" opacity="0.75"/>
+  <!-- Content lines -->
+  <rect x="82" y="112" width="90" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.12"/>
+  <rect x="82" y="126" width="72" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.08"/>
+  <rect x="82" y="140" width="82" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.08"/>
+  <rect x="82" y="154" width="58" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.08"/>
 
 
-  <!-- ── Card Content ── -->
+  <!-- ══ TOP-RIGHT CELL: "Form / Input" component ══ -->
+  <rect x="210" y="64" width="126" height="126" rx="18" fill="#111118"/>
+  <rect x="210" y="64" width="126" height="126" rx="18" fill="none"
+        stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.11"/>
 
-  <!-- Small colored tag + component name row -->
-  <!-- Tag icon (small indigo square) -->
-  <rect x="94" y="210" width="14" height="14" rx="3" fill="#4F46E5" fill-opacity="0.8"/>
-  <rect x="96.5" y="212.5" width="9" height="2.5" rx="1.25" fill="#FFFFFF" fill-opacity="0.9"/>
-  <rect x="96.5" y="217" width="6" height="2.5" rx="1.25" fill="#FFFFFF" fill-opacity="0.65"/>
-
-  <!-- Component name highlight (bright indigo text stand-in) -->
-  <rect x="114" y="212" width="104" height="10" rx="5" fill="#818CF8" fill-opacity="0.75"/>
-
-  <!-- Description text lines (white at low opacity = clean, not muddy) -->
-  <rect x="94" y="236" width="174" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.10"/>
-  <rect x="94" y="250" width="146" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.10"/>
-  <rect x="94" y="264" width="160" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.10"/>
-
-  <!-- Code snippet block -->
-  <rect x="94" y="282" width="184" height="34" rx="8" fill="#FFFFFF" fill-opacity="0.03"/>
-  <rect x="94" y="282" width="184" height="34" rx="8" fill="none"
-        stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.07"/>
-
-  <!-- Code lines inside snippet -->
-  <rect x="104" y="292" width="68" height="6" rx="3" fill="#818CF8" fill-opacity="0.55"/>
-  <rect x="104" y="304" width="110" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.07"/>
+  <!-- Label -->
+  <rect x="228" y="92" width="50" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.14"/>
+  <!-- Input field -->
+  <rect x="228" y="108" width="90" height="24" rx="7" fill="#FFFFFF" fill-opacity="0.04"/>
+  <rect x="228" y="108" width="90" height="24" rx="7" fill="none"
+        stroke="#FFFFFF" stroke-width="1.2" stroke-opacity="0.13"/>
+  <rect x="236" y="116" width="46" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.11"/>
+  <!-- Button -->
+  <rect x="228" y="144" width="62" height="22" rx="7" fill="#FFFFFF" fill-opacity="0.05"/>
+  <rect x="228" y="144" width="62" height="22" rx="7" fill="none"
+        stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.11"/>
+  <rect x="238" y="151" width="34" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.14"/>
 
 
-  <!-- ▓▓▓ MCP / AI BADGE ▓▓▓ -->
+  <!-- ══ BOTTOM-LEFT CELL: "Table / List" component ══ -->
+  <rect x="64" y="210" width="126" height="126" rx="18" fill="#111118"/>
+  <rect x="64" y="210" width="126" height="126" rx="18" fill="none"
+        stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.11"/>
 
-  <!-- Outermost ambient aura (pure radial, bleeds into background) -->
-  <circle cx="308" cy="104" r="68" fill="url(#badgeAura)"/>
+  <!-- Table header -->
+  <rect x="82" y="230" width="90" height="8" rx="4" fill="#FFFFFF" fill-opacity="0.15"/>
+  <!-- Divider -->
+  <line x1="82" y1="247" x2="172" y2="247" stroke="#FFFFFF" stroke-opacity="0.07" stroke-width="1"/>
+  <!-- Table rows -->
+  <rect x="82" y="254" width="70" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.09"/>
+  <rect x="82" y="268" width="84" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.09"/>
+  <rect x="82" y="282" width="64" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.09"/>
+  <rect x="82" y="296" width="76" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.07"/>
+  <rect x="82" y="310" width="56" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.07"/>
 
-  <!-- Soft glow layer (behind badge circle) -->
-  <circle cx="308" cy="104" r="40" fill="#4338CA" fill-opacity="0.32" filter="url(#halo)"/>
 
-  <!-- Badge main circle -->
-  <circle cx="308" cy="104" r="33" fill="url(#badgeGrad)" filter="url(#glow)"/>
+  <!-- ══ BOTTOM-RIGHT CELL: SELECTED (AI choosing a component) ══ -->
 
-  <!-- Badge crisp border -->
-  <circle cx="308" cy="104" r="33" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.32"/>
+  <!-- Wide aura that bleeds beyond cell boundaries -->
+  <rect x="210" y="210" width="126" height="126" rx="18"
+        fill="url(#selAura)" filter="url(#haloBlur)"/>
 
-  <!-- Inner accent ring -->
-  <circle cx="308" cy="104" r="24" fill="none" stroke="#FFFFFF" stroke-width="0.75" stroke-opacity="0.20"/>
+  <!-- Cell fill (deep indigo) -->
+  <rect x="210" y="210" width="126" height="126" rx="18" fill="url(#selFill)"/>
 
-  <!-- Connection: thin dashed line from badge edge to card corner -->
-  <line x1="289" y1="120" x2="283" y2="144"
-        stroke="#6366F1" stroke-width="1.2" stroke-opacity="0.55"
-        stroke-dasharray="3 3" stroke-linecap="round"/>
+  <!-- Glowing border — two layers for depth -->
+  <rect x="210" y="210" width="126" height="126" rx="18" fill="none"
+        stroke="#4F46E5" stroke-width="3" filter="url(#borderGlow)"/>
+  <rect x="210" y="210" width="126" height="126" rx="18" fill="none"
+        stroke="#818CF8" stroke-width="1.5" stroke-opacity="0.90"/>
 
-  <!-- 4-point sparkle (sharp, clean — the universal "AI" symbol) -->
-  <!-- Centered at (308, 104), outer r=12, inner r=4.5 -->
-  <path d="M308,92
-           L311.18,99.82
-           L320,104
-           L311.18,108.18
-           L308,116
-           L304.82,108.18
-           L296,104
-           L304.82,99.82
-           Z"
-        fill="#FFFFFF" fill-opacity="0.96"/>
+  <!-- Inner inset ring (subtle structure) -->
+  <rect x="219" y="219" width="108" height="108" rx="13" fill="none"
+        stroke="#FFFFFF" stroke-width="0.75" stroke-opacity="0.16"/>
+
+  <!-- 4-point sparkle centered at (273, 273)
+       outer r=22 → top(273,251) right(295,273) bottom(273,295) left(251,273)
+       inner r=8  → diagonals at ±5.66 offset -->
+  <path d="M273,251 L278.7,267.3 L295,273 L278.7,278.7 L273,295 L267.3,278.7 L251,273 L267.3,267.3 Z"
+        fill="#FFFFFF" fill-opacity="0.96" filter="url(#sparkGlow)"/>
+
+  <!-- Bright center core -->
+  <circle cx="273" cy="273" r="5" fill="#FFFFFF"/>
+  <circle cx="273" cy="273" r="9" fill="#FFFFFF" fill-opacity="0.18"/>
 
 </svg>
