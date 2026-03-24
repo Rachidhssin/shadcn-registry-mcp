@@ -74,6 +74,11 @@ export function createServer(): McpServer {
           .array(z.string().min(1))
           .optional()
           .describe('Component names to install (e.g. ["button", "dialog"])'),
+        name: z
+          .string()
+          .min(1)
+          .optional()
+          .describe('Single component name to install — alias for names (e.g. "button")'),
         group: z
           .string()
           .optional()
@@ -88,8 +93,9 @@ export function createServer(): McpServer {
       },
       annotations: { destructiveHint: true, idempotentHint: true },
     },
-    async ({ names, group, dryRun }) => {
-      const result = await handleAddComponent({ names, group, dryRun });
+    async ({ names, name, group, dryRun }) => {
+      const resolvedNames = names ?? (name ? [name] : undefined);
+      const result = await handleAddComponent({ names: resolvedNames, group, dryRun });
       return { content: [{ type: 'text', text: result }] };
     }
   );
