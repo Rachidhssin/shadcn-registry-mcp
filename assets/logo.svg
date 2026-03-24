@@ -1,96 +1,165 @@
 <svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="400" y2="400" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#131318"/>
+
+    <!-- Background: near-black with a cool blue-black tint at top-left -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="400" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#111122"/>
       <stop offset="100%" stop-color="#09090B"/>
     </linearGradient>
-    <linearGradient id="ringGrad" x1="130" y1="130" x2="270" y2="270" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#E4DCFF"/>
-      <stop offset="50%" stop-color="#8B5CF6"/>
-      <stop offset="100%" stop-color="#4C1D95"/>
+
+    <!-- Card surface: deep cool-dark to near-black -->
+    <linearGradient id="cardGrad" x1="78" y1="148" x2="78" y2="326" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#1C1B30"/>
+      <stop offset="100%" stop-color="#0F0F1A"/>
     </linearGradient>
-    <linearGradient id="coreGrad" x1="170" y1="170" x2="230" y2="230" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#A78BFA"/>
-      <stop offset="100%" stop-color="#6D28D9"/>
+
+    <!-- Card header: slightly lighter -->
+    <linearGradient id="hdrGrad" x1="78" y1="148" x2="78" y2="194" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#23213E"/>
+      <stop offset="100%" stop-color="#1A192C"/>
     </linearGradient>
-    <radialGradient id="aura" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.35"/>
-      <stop offset="60%" stop-color="#4C1D95" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="#4C1D95" stop-opacity="0"/>
+
+    <!-- Badge: bright indigo gradient (replaces muddy violet) -->
+    <linearGradient id="badgeGrad" x1="276" y1="72" x2="340" y2="136" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#A5B4FC"/>
+      <stop offset="100%" stop-color="#4338CA"/>
+    </linearGradient>
+
+    <!-- Badge ambient aura (radial) -->
+    <radialGradient id="badgeAura" cx="308" cy="104" r="68" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#6366F1" stop-opacity="0.38"/>
+      <stop offset="55%"  stop-color="#6366F1" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#6366F1" stop-opacity="0"/>
     </radialGradient>
-    <filter id="bloom" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="10" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+
+    <!-- Glow filter: badge inner glow -->
+    <filter id="glow" x="-55%" y="-55%" width="210%" height="210%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
-    <filter id="coreBloom" x="-100%" y="-100%" width="300%" height="300%">
-      <feGaussianBlur stdDeviation="14" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+
+    <!-- Strong glow filter: soft halo layer -->
+    <filter id="halo" x="-90%" y="-90%" width="280%" height="280%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
     </filter>
-    <clipPath id="rounded">
+
+    <!-- Clip path for icon shape -->
+    <clipPath id="iconShape">
       <rect width="400" height="400" rx="88"/>
     </clipPath>
+
   </defs>
 
-  <!-- Background -->
-  <rect width="400" height="400" rx="88" fill="url(#bg)"/>
+  <!-- ▓▓▓ BACKGROUND ▓▓▓ -->
+  <rect width="400" height="400" rx="88" fill="url(#bgGrad)"/>
 
-  <!-- Subtle grid texture -->
-  <g clip-path="url(#rounded)" opacity="0.06">
-    <line x1="100" y1="0" x2="100" y2="400" stroke="#8B5CF6" stroke-width="0.5"/>
-    <line x1="200" y1="0" x2="200" y2="400" stroke="#8B5CF6" stroke-width="0.5"/>
-    <line x1="300" y1="0" x2="300" y2="400" stroke="#8B5CF6" stroke-width="0.5"/>
-    <line x1="0" y1="100" x2="400" y2="100" stroke="#8B5CF6" stroke-width="0.5"/>
-    <line x1="0" y1="200" x2="400" y2="200" stroke="#8B5CF6" stroke-width="0.5"/>
-    <line x1="0" y1="300" x2="400" y2="300" stroke="#8B5CF6" stroke-width="0.5"/>
-  </g>
+  <!-- Outer icon border (very subtle) -->
+  <rect width="400" height="400" rx="88" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.06"/>
 
-  <!-- Outer border -->
-  <rect width="400" height="400" rx="88" fill="none" stroke="#1E1E26" stroke-width="1.5"/>
+  <!-- Very faint ambient light behind main card area -->
+  <ellipse cx="186" cy="240" rx="128" ry="104" fill="#6366F1" fill-opacity="0.04"/>
 
-  <!-- ── COMPONENT CARDS (3 stacked, offset) ── -->
 
-  <!-- Card 3 (back) -->
-  <rect x="82" y="108" width="192" height="136" rx="16" fill="#0F0F14" stroke="#1E1E26" stroke-width="1.2" transform="rotate(-6 178 176)"/>
+  <!-- ▓▓▓ COMPONENT CARD ▓▓▓ -->
 
-  <!-- Card 2 (middle) -->
-  <rect x="82" y="108" width="192" height="136" rx="16" fill="#111118" stroke="#252530" stroke-width="1.2" transform="rotate(-2 178 176)"/>
+  <!-- Drop shadow -->
+  <rect x="78" y="148" width="214" height="178" rx="14" fill="#000000" fill-opacity="0.45"
+        transform="translate(3,8)"/>
 
-  <!-- Card 1 (front) -->
-  <rect x="82" y="108" width="192" height="136" rx="16" fill="#16161E" stroke="#2E2E3E" stroke-width="1.5"/>
-  <!-- Card header bar -->
-  <rect x="82" y="108" width="192" height="36" rx="16" fill="#1A1A26"/>
-  <rect x="82" y="128" width="192" height="16" fill="#1A1A26"/>
-  <!-- Traffic lights -->
-  <circle cx="106" cy="126" r="5.5" fill="#FF5F57" opacity="0.7"/>
-  <circle cx="122" cy="126" r="5.5" fill="#FEBC2E" opacity="0.7"/>
-  <circle cx="138" cy="126" r="5.5" fill="#28C840" opacity="0.7"/>
-  <!-- Card content lines -->
-  <rect x="100" y="158" width="80" height="7" rx="3.5" fill="#8B5CF6" opacity="0.6"/>
-  <rect x="100" y="172" width="154" height="5" rx="2.5" fill="#2E2E3E"/>
-  <rect x="100" y="183" width="120" height="5" rx="2.5" fill="#2E2E3E"/>
-  <rect x="100" y="194" width="140" height="5" rx="2.5" fill="#2E2E3E"/>
-  <rect x="100" y="208" width="96" height="5" rx="2.5" fill="#2E2E3E"/>
-  <!-- Card violet accent strip left -->
-  <rect x="82" y="124" width="3.5" height="108" rx="2" fill="#8B5CF6" opacity="0.5"/>
+  <!-- Card surface -->
+  <rect x="78" y="148" width="214" height="178" rx="14" fill="url(#cardGrad)"/>
 
-  <!-- ── MCP BADGE (bottom-right) ── -->
-  <rect x="202" y="212" width="118" height="52" rx="14" fill="#0D0920" stroke="#5B21B6" stroke-width="1.5"/>
-  <!-- Badge glow -->
-  <rect x="202" y="212" width="118" height="52" rx="14" fill="#8B5CF6" opacity="0.04"/>
-  <text x="220" y="232" font-family="ui-monospace, 'Courier New', monospace" font-size="9" fill="#6D28D9" letter-spacing="2" font-weight="600">PROTOCOL</text>
-  <text x="220" y="252" font-family="ui-monospace, 'Courier New', monospace" font-size="18" fill="#A78BFA" font-weight="800" letter-spacing="1">MCP</text>
+  <!-- Card border — KEY: crisp white at low opacity for clean contrast -->
+  <rect x="78" y="148" width="214" height="178" rx="14" fill="none"
+        stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.12"/>
 
-  <!-- ── CONNECTION NODE (glowing dot bottom-left) ── -->
-  <circle cx="116" cy="276" r="28" fill="#0D0920"/>
-  <circle cx="116" cy="276" r="28" fill="none" stroke="#3B1FA8" stroke-width="1.5"/>
-  <circle cx="116" cy="276" r="18" fill="none" stroke="#6D28D9" stroke-width="1" opacity="0.5"/>
-  <circle cx="116" cy="276" r="9" fill="url(#coreGrad)" filter="url(#coreBloom)" opacity="0.9"/>
-  <circle cx="116" cy="276" r="4" fill="#E4DCFF"/>
+  <!-- Top edge specular highlight -->
+  <rect x="94" y="148" width="108" height="1.5" rx="0.75" fill="#FFFFFF" fill-opacity="0.18"/>
 
-  <!-- Connection line from node to card -->
-  <line x1="116" y1="248" x2="116" y2="244" stroke="#3B1FA8" stroke-width="1.5" stroke-linecap="round"/>
-  <line x1="140" y1="276" x2="202" y2="238" stroke="#3B1FA8" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="4 3"/>
 
-  <!-- ── AURA behind everything ── -->
-  <ellipse cx="200" cy="200" rx="180" ry="180" fill="url(#aura)" opacity="0.4"/>
+  <!-- ── Header ── -->
+  <rect x="78" y="148" width="214" height="46" rx="14" fill="url(#hdrGrad)"/>
+  <!-- Fill in the corner gap between header and card body -->
+  <rect x="78" y="172" width="214" height="22" fill="url(#hdrGrad)"/>
+
+  <!-- Header divider -->
+  <line x1="78" y1="194" x2="292" y2="194" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- macOS traffic lights -->
+  <circle cx="102" cy="171" r="6.5" fill="#FF5F57"/>
+  <circle cx="121" cy="171" r="6.5" fill="#FEBC2E"/>
+  <circle cx="140" cy="171" r="6.5" fill="#28C840"/>
+
+  <!-- Header title placeholder bar -->
+  <rect x="160" y="166" width="86" height="10" rx="5" fill="#FFFFFF" fill-opacity="0.08"/>
+
+
+  <!-- ── Card Content ── -->
+
+  <!-- Small colored tag + component name row -->
+  <!-- Tag icon (small indigo square) -->
+  <rect x="94" y="210" width="14" height="14" rx="3" fill="#4F46E5" fill-opacity="0.8"/>
+  <rect x="96.5" y="212.5" width="9" height="2.5" rx="1.25" fill="#FFFFFF" fill-opacity="0.9"/>
+  <rect x="96.5" y="217" width="6" height="2.5" rx="1.25" fill="#FFFFFF" fill-opacity="0.65"/>
+
+  <!-- Component name highlight (bright indigo text stand-in) -->
+  <rect x="114" y="212" width="104" height="10" rx="5" fill="#818CF8" fill-opacity="0.75"/>
+
+  <!-- Description text lines (white at low opacity = clean, not muddy) -->
+  <rect x="94" y="236" width="174" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.10"/>
+  <rect x="94" y="250" width="146" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.10"/>
+  <rect x="94" y="264" width="160" height="7" rx="3.5" fill="#FFFFFF" fill-opacity="0.10"/>
+
+  <!-- Code snippet block -->
+  <rect x="94" y="282" width="184" height="34" rx="8" fill="#FFFFFF" fill-opacity="0.03"/>
+  <rect x="94" y="282" width="184" height="34" rx="8" fill="none"
+        stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.07"/>
+
+  <!-- Code lines inside snippet -->
+  <rect x="104" y="292" width="68" height="6" rx="3" fill="#818CF8" fill-opacity="0.55"/>
+  <rect x="104" y="304" width="110" height="6" rx="3" fill="#FFFFFF" fill-opacity="0.07"/>
+
+
+  <!-- ▓▓▓ MCP / AI BADGE ▓▓▓ -->
+
+  <!-- Outermost ambient aura (pure radial, bleeds into background) -->
+  <circle cx="308" cy="104" r="68" fill="url(#badgeAura)"/>
+
+  <!-- Soft glow layer (behind badge circle) -->
+  <circle cx="308" cy="104" r="40" fill="#4338CA" fill-opacity="0.32" filter="url(#halo)"/>
+
+  <!-- Badge main circle -->
+  <circle cx="308" cy="104" r="33" fill="url(#badgeGrad)" filter="url(#glow)"/>
+
+  <!-- Badge crisp border -->
+  <circle cx="308" cy="104" r="33" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.32"/>
+
+  <!-- Inner accent ring -->
+  <circle cx="308" cy="104" r="24" fill="none" stroke="#FFFFFF" stroke-width="0.75" stroke-opacity="0.20"/>
+
+  <!-- Connection: thin dashed line from badge edge to card corner -->
+  <line x1="289" y1="120" x2="283" y2="144"
+        stroke="#6366F1" stroke-width="1.2" stroke-opacity="0.55"
+        stroke-dasharray="3 3" stroke-linecap="round"/>
+
+  <!-- 4-point sparkle (sharp, clean — the universal "AI" symbol) -->
+  <!-- Centered at (308, 104), outer r=12, inner r=4.5 -->
+  <path d="M308,92
+           L311.18,99.82
+           L320,104
+           L311.18,108.18
+           L308,116
+           L304.82,108.18
+           L296,104
+           L304.82,99.82
+           Z"
+        fill="#FFFFFF" fill-opacity="0.96"/>
+
 </svg>
